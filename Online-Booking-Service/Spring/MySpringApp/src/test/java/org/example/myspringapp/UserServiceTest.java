@@ -2,6 +2,7 @@ package org.example.myspringapp;
 
 import org.example.myspringapp.Model.User;
 import org.example.myspringapp.Model.UserRole;
+import org.example.myspringapp.Repositories.ReservationRepository;
 import org.example.myspringapp.Repositories.UserRepository;
 import org.example.myspringapp.Repositories.UserRoleRepository;
 import org.example.myspringapp.Service.JWTUtils;
@@ -30,12 +31,16 @@ public class UserServiceTest {
     @Mock
     UserRoleRepository userRoleRepository;
 
+    @Mock
+    ReservationRepository reservationRepository;
+
     public UserServiceTest() {
         MockitoAnnotations.openMocks(this); // Initialize mocks
 
         // Mock userRepository.findByUserName() behavior
         when(userRepository.findByUserName("a43")).thenReturn(new User()); // Mock existing user
         when(userRepository.findByUserName("non-existing")).thenReturn(null); // Mock non-existing user
+
     }
 
     @Test
@@ -150,6 +155,34 @@ public class UserServiceTest {
 
         // Assert
         assertEquals("200", response.get("response"));
+    }
+
+    @Test
+    public void testGetBookingHistory(){
+        // Arrange
+        UserRole userRole = UserRole.builder()
+                .id(4L)
+                .roleName("rolename")
+                .PrivilegesDescription("description").
+                build();
+        User UserToDelete = User.builder()
+                .userName("old-name")
+                .email("email")
+                .phone("000000")
+                .carteBancaire("bank-account")
+                .userRole(userRole)
+                .password("123")
+                .build();
+        String token = jwtUtils.generateToken(UserToDelete);
+
+        User UserToDelete2 = userRepository.findByUserName("edited");
+
+        // Act
+        Map<String, Object> response = userService.getBookingHistory(UserToDelete2,"token");
+
+        // Assert
+        assertEquals(200, response.get("response"));
+        System.out.println(response.get("response"));
     }
 
 }

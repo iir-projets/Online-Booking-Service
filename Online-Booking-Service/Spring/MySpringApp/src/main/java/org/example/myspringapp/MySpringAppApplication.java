@@ -35,17 +35,22 @@ public class MySpringAppApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        /*
+                # 2nd layer of manual Testing
+        */
         System.out.println(userRepository.findAll());
         UserRole userRole = userRoleRepository.findById(1L).get();
         User user = new User(null,"testing","user@email.com","123","0000","XXXXXX",userRole);
         User AlteredUser = userRepository.findById(2L).get();
-        AlteredUser.setUserName("admin");
-        String token = jwtUtils.generateToken(user);
+        //AlteredUser.setUserName("admin");
+        String token = jwtUtils.generateToken(AlteredUser);
 
         //System.out.println(userService.addUser(user));
         //System.out.println(userService.editUser(AlteredUser,token));
 
-        User UserToDelete2 = userRepository.findByUserName("edited");
-        System.out.println(UserToDelete2);
+        //User UserToDelete2 = userRepository.findByUserName("edited");
+        //System.out.println(UserToDelete2);
+
+        System.out.println(userService.getBookingHistory(AlteredUser,token));
     }
 }

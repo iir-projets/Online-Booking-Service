@@ -1,6 +1,8 @@
 package org.example.myspringapp.Service;
 
+import org.example.myspringapp.Model.Reservation;
 import org.example.myspringapp.Model.User;
+import org.example.myspringapp.Repositories.ReservationRepository;
 import org.example.myspringapp.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     JWTUtils jwtUtils;
+    @Autowired
+    ReservationRepository reservationRepository;
+
 
     /*
         #Response Sheet
@@ -78,6 +83,20 @@ public class UserService {
         List<User> users = userRepository.findAll();
         response.put("data",users);
         response.put("response","200");
+
+        return response;
+    }
+
+    public Map<String,Object> getBookingHistory(User user , String token){
+        Map<String,Object> response = new HashMap<>();
+
+        if(jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+        List<Reservation> reservationList = reservationRepository.findByUser(user);
+        response.put("response",200);
+        response.put("data",reservationList);
 
         return response;
     }
