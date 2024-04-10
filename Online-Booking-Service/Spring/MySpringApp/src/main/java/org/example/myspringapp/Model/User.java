@@ -1,7 +1,9 @@
 package org.example.myspringapp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,18 +11,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String UserName;
-    private String Email;
-    private String Password;
-    private String Phone;
-    private String CarteBancaire;
+    private Long id;
+
+    @Column(unique = true)
+    private String userName;
+    private String email;
+    private String password;
+    private String phone;
+    private String carteBancaire;
 
     @ManyToOne
-    @JoinColumn(name = "role_id") // Assumes there's a column 'role_id' in the User table
+    @JoinColumn(name = "role_id")
+    @JsonIgnoreProperties("users")// Assumes there's a column 'role_id' in the User table
     private UserRole userRole;
 
 }
