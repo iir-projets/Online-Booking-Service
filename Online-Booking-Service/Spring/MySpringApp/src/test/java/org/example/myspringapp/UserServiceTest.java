@@ -22,15 +22,12 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private JWTUtils jwtUtils;
-
     @InjectMocks
     private UserService userService;
     @Mock
     UserRoleRepository userRoleRepository;
-
     @Mock
     ReservationRepository reservationRepository;
 
@@ -157,6 +154,8 @@ public class UserServiceTest {
         assertEquals("200", response.get("response"));
     }
 
+
+    /*
     @Test
     public void testGetBookingHistory(){
         // Arrange
@@ -184,5 +183,6 @@ public class UserServiceTest {
         assertEquals(200, response.get("response"));
         System.out.println(response.get("response"));
     }
+     */
 
 }

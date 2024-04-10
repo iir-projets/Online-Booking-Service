@@ -27,7 +27,6 @@ public class UserService {
         500 => duplicated username
         501 => token not valid
 
-
      */
 
     public Map<String , String> addUser(User user ){
