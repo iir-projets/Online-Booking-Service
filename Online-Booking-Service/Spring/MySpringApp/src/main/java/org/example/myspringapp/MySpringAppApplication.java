@@ -16,6 +16,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootApplication
 public class MySpringAppApplication implements CommandLineRunner {
     @Autowired
@@ -66,8 +69,12 @@ public class MySpringAppApplication implements CommandLineRunner {
                 .price(200)
                 .build();
         //System.out.println(productServices.editProduct(product,token));
-        System.out.println(productServices.sortByPriceASC(token));
-        System.out.println(productServices.sortByPriceDESC(token));
+        //System.out.println(productServices.sortByPriceASC(token));
+        //System.out.println(productServices.sortByPriceDESC(token));
+        Map<String,String> credentials = new HashMap<>();
+        credentials.put("email","admin@email.com");
+        credentials.put("password","1234");
+        System.out.println(userService.authenticateUser(credentials));
 
     }
 }
