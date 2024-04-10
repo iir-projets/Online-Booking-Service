@@ -6,14 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProductRepository  extends JpaRepository<Product,Integer> {
-    List<Product> findProductByCategory(String category);
     List<Product> findProductByAvailability(String availability);
-    List<Product> findProductByPriceLessThan(int price);
-    List<Product> findByOrderByPriceAsc();
-    List<Product> findByOrderByPriceDesc();
 
+    List<Product> findByCategory(String category);
 
+    Product findByName(String name);
 
+    List<Product> findByPriceLessThan(Integer price);
 
-    //List<Product>
+    // Sort products by price in ascending order
+    List<Product> findAllByOrderByPriceAsc();
+
+    // Sort products by price in descending order
+    List<Product> findAllByOrderByPriceDesc();
+
 }
