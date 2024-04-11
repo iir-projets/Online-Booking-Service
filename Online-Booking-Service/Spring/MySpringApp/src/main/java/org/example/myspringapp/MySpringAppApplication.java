@@ -10,11 +10,15 @@ import org.example.myspringapp.Repositories.UserRepository;
 import org.example.myspringapp.Repositories.UserRoleRepository;
 import org.example.myspringapp.Service.JWTUtils;
 import org.example.myspringapp.Service.ProductServices;
+import org.example.myspringapp.Service.ReservationService;
 import org.example.myspringapp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class MySpringAppApplication implements CommandLineRunner {
@@ -31,6 +35,8 @@ public class MySpringAppApplication implements CommandLineRunner {
     UserService userService;
     @Autowired
     ProductServices productServices;
+    @Autowired
+    ReservationService reservationService;
 
     public static void main(String[] args) {
         SpringApplication.run(MySpringAppApplication.class, args);
@@ -41,7 +47,7 @@ public class MySpringAppApplication implements CommandLineRunner {
         /*
                 # 2nd layer of manual Testing
         */
-        System.out.println(userRepository.findAll());
+        //System.out.println(userRepository.findAll());
         UserRole userRole = userRoleRepository.findById(1L).get();
         User user = new User(null,"testing","user@email.com","123","0000","XXXXXX",userRole);
         User AlteredUser = userRepository.findById(2L).get();
@@ -66,8 +72,18 @@ public class MySpringAppApplication implements CommandLineRunner {
                 .price(200)
                 .build();
         //System.out.println(productServices.editProduct(product,token));
-        System.out.println(productServices.sortByPriceASC(token));
-        System.out.println(productServices.sortByPriceDESC(token));
+        //System.out.println(productServices.sortByPriceASC(token));
+        //System.out.println(productServices.sortByPriceDESC(token));
+        /*
+                #Authentication Test
+        Map<String,String> credentials = new HashMap<>();
+        credentials.put("email","admin@email.com");
+        credentials.put("password","1234");
+        System.out.println(userService.authenticateUser(credentials));
+
+         */
+        Product product1 = productRepository.findById(1).get();
+        System.out.println(reservationService.makeReservation("My First Service",token));
 
     }
 }
