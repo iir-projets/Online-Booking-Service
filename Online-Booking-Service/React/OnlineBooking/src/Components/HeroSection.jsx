@@ -5,7 +5,7 @@ function HeroSection() {
   return (
     <>
       {/*   hero Section  */}
-      <div className="flex justify-between w-screen  mt-24">
+      <div className="flex justify-between w-full mt-24">
         <div className="flex-col ml-28 mt-28 px-8 font-serif text-3xl font-bold text-wrap w-96 ">
           <TypeAnimation
             sequence={[

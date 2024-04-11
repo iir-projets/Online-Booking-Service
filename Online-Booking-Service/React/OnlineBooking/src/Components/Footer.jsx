@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <>
-      <div className="mt-10 w-screen p-4 md:py-8">
+      <div className="mt-10 w-full p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="self-center text-2xl text-black font-semibold whitespace-nowrap">
             ABDR4FI3

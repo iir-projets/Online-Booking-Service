@@ -4,7 +4,7 @@ import Logo from "../assets/A43.png";
 function Nav() {
   return (
     <>
-      <div className="flex justify-between w-screen mt-4 ">
+      <div className="flex justify-between w-full mt-4 ">
         <img src={Logo} alt="" className="ml-8" />
         {/* buttons container */}
         <div className="flex gap-24">
@@ -20,7 +20,7 @@ function Nav() {
         </div>
         {/*     Login button     */}
         <button
-          className="border-2 p-4 font-thin font-serif text-xl bg-red-400 mr-8 rounded-lg text-white
+          className="border-2 p-4 mr-4 font-thin font-serif text-xl bg-red-400 rounded-lg text-white
          hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl hover:translate-y-6"
         >
           Log in
