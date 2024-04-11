@@ -2,10 +2,25 @@ import Container from "./Container";
 import Nav from "./Nav";
 import { useState } from "react";
 import Footer from "./Footer";
+import Modal from "./Modal";
+import ProductDetails from "./ProductDetails";
+
 
 function Products() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [visibility, setVisibility] = useState(true);
+  const switchVisibilityOn = () => {
+    setVisibility(true);
+  };
+  const onDetails = () =>{
+    switchVisibilityOn()
+
+  }
+
+  const switchVisibilityOff = () => {
+    setVisibility(false);
+  };
 
   const options = ["Category 1", "Category 2", "Category 3"];
 
@@ -22,6 +37,13 @@ function Products() {
     <>
       <Nav />
       <div className="flex mt-24 ">
+      {visibility && (
+        <Modal onClose={switchVisibilityOff}>
+          <ProductDetails
+            onCancel={switchVisibilityOff}
+          />
+        </Modal>
+      )}
         <div className="flex-col ml-10 ">
           <label htmlFor="" className="font-bold font-mono">
             Search :
@@ -72,7 +94,7 @@ function Products() {
           <Container className="" />
           <Container className="" />
           <Container className="" />
-          <Container className="" />
+          <Container onDetails={onDetails()} className="" />
         </div>
       </div>
       <Footer/>

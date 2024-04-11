@@ -1,7 +1,12 @@
 import Animation from "../Components/Animation";
 import { TypeAnimation } from "react-type-animation";
+import { useState } from "react";
+import Modal from "./Modal";
+
 
 function HeroSection() {
+
+
   return (
     <>
       {/*   hero Section  */}

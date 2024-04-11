@@ -8,7 +8,7 @@ function Container(props) {
       </div>
       <p className="text-center font-mono text-2xl">Title</p>
       <p className="mt-2 font-mono text-l">Rating: ⭐⭐⭐⭐⭐</p>
-      <button className="ml-12 w-28 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4">Book Now</button>
+      <button className="ml-12 w-28 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4" onClick={props.onDetails}>Book Now</button>
     </div>
   );
 }
