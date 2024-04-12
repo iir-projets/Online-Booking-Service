@@ -4,6 +4,7 @@ import HeroSection from "./Components/HeroSection";
 import Footer from "./Components/Footer";
 
 function Home() {
+  
   return (
     <>
       <Nav></Nav>
