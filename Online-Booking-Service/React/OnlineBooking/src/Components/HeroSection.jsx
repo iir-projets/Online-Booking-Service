@@ -1,7 +1,12 @@
 import Animation from "../Components/Animation";
 import { TypeAnimation } from "react-type-animation";
 
+
+
 function HeroSection() {
+  console.log(localStorage.getItem("token"))
+  
+
   return (
     <>
       {/*   hero Section  */}
