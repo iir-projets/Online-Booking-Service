@@ -72,8 +72,8 @@ public class MySpringAppApplication implements CommandLineRunner {
                 .price(200)
                 .build();
         //System.out.println(productServices.editProduct(product,token));
-        //System.out.println(productServices.sortByPriceASC(token));
-        //System.out.println(productServices.sortByPriceDESC(token));
+        System.out.println(productServices.sortByPriceASC(token));
+        System.out.println(productServices.sortByPriceDESC(token));
         /*
                 #Authentication Test
         Map<String,String> credentials = new HashMap<>();

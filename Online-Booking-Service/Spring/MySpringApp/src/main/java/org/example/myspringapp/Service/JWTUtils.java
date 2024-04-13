@@ -10,6 +10,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.sql.SQLOutput;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,6 +98,7 @@ public class JWTUtils {
             return extractExpiration(token).before(new Date());
         }catch (Exception e){
             System.out.println("token not valid");
+            System.out.println(e);
             return true;
         }
 

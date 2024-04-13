@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 response -> {
                     try {
                         String token = response.getString("token");
+                        Log.d("LoginActivity", "Token: " + token);
                         String role = response.getString("role");
 
                         SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
                                 break;
                             case "user":
-                                intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                                intent = new Intent(LoginActivity.this, ProductActivity.class);
                                 break;
                             default:
                                 Toast.makeText(LoginActivity.this, "Role not recognized", Toast.LENGTH_SHORT).show();
