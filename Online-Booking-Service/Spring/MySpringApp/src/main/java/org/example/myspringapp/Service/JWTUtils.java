@@ -91,6 +91,9 @@ public class JWTUtils {
 
     public  boolean isTokenExpired(String token){
         try {
+            System.out.println( extractExpiration(token));
+            System.out.println(new Date());
+            System.out.println(extractExpiration(token).before(new Date()));
             return extractExpiration(token).before(new Date());
         }catch (Exception e){
             System.out.println("token not valid");

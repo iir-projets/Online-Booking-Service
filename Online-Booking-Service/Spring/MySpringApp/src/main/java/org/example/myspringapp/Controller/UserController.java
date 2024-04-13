@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -47,5 +46,9 @@ public class UserController {
         User  user = new User();
         Map<String, Object> response = userService.getBookingHistory( user ,token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    @PostMapping("/authenticate")
+    public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {
+        return userService.authenticateUser(credentials);
     }
 }
