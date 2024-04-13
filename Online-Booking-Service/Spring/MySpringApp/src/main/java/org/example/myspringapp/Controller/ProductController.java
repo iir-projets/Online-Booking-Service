@@ -20,9 +20,9 @@ import java.util.Map;
 
 @RestController
 public class ProductController {
-@Autowired
-    private  ProductRepository productRepository;
 
+    @Autowired
+    private  ProductRepository productRepository;
     @Autowired
     JWTUtils jwtUtils;
     @Autowired
@@ -37,10 +37,6 @@ public class ProductController {
         Map<String ,Object> response = productServices.sortByPriceDESC(token);
         System.out.println(response);
         return response;
-    }
-    @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
     }
     @GetMapping("/demandes")
     public List<Product> getAllProducts() {
