@@ -12,6 +12,7 @@ public interface ProductRepository  extends JpaRepository<Product,Integer> {
 
     Product findByName(String name);
 
+
     List<Product> findByPriceLessThan(Integer price);
 
     // Sort products by price in ascending order
