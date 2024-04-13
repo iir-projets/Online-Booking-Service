@@ -75,9 +75,7 @@ public class JWTUtils {
                 .parseClaimsJws(token)
                 .getBody()
                 .getIssuedAt();
-        System.out.println(claims);
         Date dateExpiration = new Date(claims.getTime()+ExpirationTime);
-        System.out.println(dateExpiration);
         return dateExpiration;
         //return claims.getExpiration();
     }
@@ -89,10 +87,10 @@ public class JWTUtils {
         return (userName.equals(user.getUserName())) && !isTokenExpired(token);
     }
 
-    public  boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token){
         try {
-            System.out.println( extractExpiration(token));
-            System.out.println(new Date());
+            System.out.println("expiration " + extractExpiration(token));
+            System.out.println("now " + new Date());
             System.out.println(extractExpiration(token).before(new Date()));
             return extractExpiration(token).before(new Date());
         }catch (Exception e){
