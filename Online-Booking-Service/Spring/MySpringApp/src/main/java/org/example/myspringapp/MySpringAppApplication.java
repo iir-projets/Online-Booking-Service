@@ -82,9 +82,9 @@ public class MySpringAppApplication implements CommandLineRunner {
         System.out.println(userService.authenticateUser(credentials));
 
          */
-        Product product1 = productRepository.findById(1).get();
-        System.out.println(reservationService.makeReservation("My First Service",token));
-        System.out.println(token);
+        //Product product1 = productRepository.findById(1).get();
+        //System.out.println(reservationService.makeReservation("My First Service",token));
+        //System.out.println(token);
 
     }
 }

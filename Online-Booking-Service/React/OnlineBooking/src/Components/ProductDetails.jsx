@@ -5,13 +5,13 @@ import img from "../assets/bike-service.png";
 
 function ProductDetails(props) {
   // States
-
+  const [data,setData] = useState(props.service)
+  console.log("second component" , data)
   // Handle Changes
 
   function SubmitHandler(event) {
     event.preventDefault();
     // Pass data to parent component
-    props.onAddNote();
     props.onCancel();
   }
 
@@ -24,10 +24,11 @@ function ProductDetails(props) {
           alt=""
         />
         <div className="text-container mt-5">
-          <h1 className=" p-4">Service Name </h1>
+          <h1 className=" p-4">{data.name} </h1>
           <h1 className=" p-4">Rating : ⭐⭐⭐⭐⭐</h1>
-          <h1 className=" p-4">Location : Rabat</h1>
-          <h1 className=" p-4">Description :</h1>
+          <h1 className=" p-4">Location : {data.location}</h1>
+          <h1 className=" p-4">Category : {data.category}</h1>
+          <h1 className=" p-4">Description : {data.description}</h1>
         </div>
       </div>
     </div>
@@ -36,7 +37,7 @@ function ProductDetails(props) {
 
 ProductDetails.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  onAddNote: PropTypes.func.isRequired,
+  service: PropTypes.object.isRequired
 };
 
 export default ProductDetails;

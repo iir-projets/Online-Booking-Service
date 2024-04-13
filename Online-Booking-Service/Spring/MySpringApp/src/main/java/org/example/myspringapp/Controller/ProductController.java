@@ -29,12 +29,10 @@ public class ProductController {
     public Map<String,Object> getAllProducts(@RequestBody String token){
         System.out.println("bug");
         Map<String ,Object> response = productServices.sortByPriceDESC(token);
+        System.out.println(response);
         return response;
     }
-    @PostMapping("/authenticate")
-    public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {
-        return userService.authenticateUser(credentials);
-    }
+
 
     @GetMapping("/users")
     public List<User> getusers(){
