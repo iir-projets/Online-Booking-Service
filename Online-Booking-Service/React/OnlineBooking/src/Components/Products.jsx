@@ -50,7 +50,6 @@ function Products() {
       if (!token) {
         throw new Error("Token not found in localStorage");
       }
-      console.log("bug");
 
       const response = await fetch("http://localhost:9085/services", {
         method: "POST",
@@ -137,6 +136,7 @@ function Products() {
           {services.map((services) => (
             <Container
               key={services.id}
+              id={services.id}
               title={services.name}
               onDetails={() => {
                 onDetails(services);

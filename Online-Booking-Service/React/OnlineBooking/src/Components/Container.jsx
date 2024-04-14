@@ -1,12 +1,40 @@
-import img from "../assets/support.png";
+import support from "../assets/support.png";
 import PropTypes from 'prop-types';
-
+import bike from "../assets/bike-service.png"
+import delivery from "../assets/delivery-service.png"
+import HomeDelivery from "../assets/home-delivery-service.png"
+import OnlineShopping from "../assets/online-shopping.png"
+import TaxiDriver from "../assets/taxi-driver.png"
+import receptionist from "../assets/receptionist-working-on-her-desk-with-laptop.png"
+import { useState , useEffect , useMemo } from "react";
 
 function Container(props) {
+
+  const [image , Setimage] = useState(support)
+  //here i am creating a map to link each image to a product 
+    // Use useMemo to memoize the 'gallery' object initialization
+    const gallery = useMemo(() => new Map([
+      [1, support],
+      [2, bike],
+      [3, HomeDelivery],
+      [4, delivery],
+      [5, OnlineShopping],
+      [6, TaxiDriver],
+      [7, receptionist]
+  ]), []);
+
+  useEffect(() => {
+    // Update image whenever props.id changes
+    Setimage(gallery.get(props.id));
+}, [props.id,gallery]);
+
+
+
+
   return (
-    <div className="flex-col border-2 w-56 h-72 shadow-xl items-center justify-center">
+    <div className="flex-col border-2 w-56 h- shadow-xl items-center justify-center">
       <div className="flex justify-center"> 
-        <img src={img} alt="" className="w-44" />
+        <img src={image} alt="" className="w-44" />
       </div>
       <p className="text-center font-mono text-2xl">{props.title}</p>
       <p className="mt-2 font-mono text-l">Rating: ⭐⭐⭐⭐⭐</p>
@@ -19,7 +47,8 @@ function Container(props) {
 Container.propTypes = {
   title: PropTypes.string.isRequired,
   onDetails: PropTypes.func.isRequired,
-};
+  id: PropTypes.number.isRequired // Assuming 'id' is a number
 
+};
 
 export default Container;

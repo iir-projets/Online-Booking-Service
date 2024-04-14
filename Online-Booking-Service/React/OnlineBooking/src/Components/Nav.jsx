@@ -1,5 +1,8 @@
 import Logo from "../assets/A43.png";
 import { useNavigate } from "react-router-dom";
+import { RiLogoutCircleRLine } from "react-icons/ri";
+
+
 
 function Nav() { 
   const navigateTo = useNavigate()
@@ -45,10 +48,11 @@ function Nav() {
         {/*     Login button     */}
         <button
           className="border-2 p-4 mr-4 font-thin font-serif text-xl bg-red-400 rounded-lg text-white
-         hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl hover:translate-y-6"
+         hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl hover:translate-y-6 flex gap-2"
           onClick={handleLogout}
         >
           Log out
+          <RiLogoutCircleRLine className="mt-1" />
         </button>
       </div>
     </>

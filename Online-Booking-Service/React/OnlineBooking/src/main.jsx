@@ -5,13 +5,28 @@ import {createBrowserRouter , RouterProvider} from 'react-router-dom';
 import Home from './Home.jsx';
 import Container from './Components/Container.jsx';
 import Products from './Components/Products.jsx';
-import API from './Components/API.jsx';
 import Login from './Components/Login.jsx';
+import Admin from './Admin.jsx';
 
 
 const router = createBrowserRouter([
   {
     //default to try new features
+    path:'/',
+    element: <Admin/>
+  },
+  {
+    //default to try new features
+    path:'/Admin',
+    element: <Admin/>
+  },
+  {
+    //default for production
+    path:'/Login',
+    element: <Login/>
+  },/*
+  {
+    //default for production
     path:'/',
     element: <Login/>
   },/*

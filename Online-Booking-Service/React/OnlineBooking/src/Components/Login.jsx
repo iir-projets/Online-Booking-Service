@@ -61,14 +61,18 @@ function Login() {
         const waitToTurnOff = setTimeout(()=>
         switchOff(loginFailRef),2000)//2s
 
-      }else{
-        if (data.role == "user") {
+      }
+      if (data.role == "user") {
           console.log("succes")
           switchOn(loginSuccessRef)
           const waitToSwitch = setTimeout(()=>
         navigateTo("/home"),3500) //3.5s
-        }
-
+      }
+      if (data.role == "admin") {
+          console.log("succes")
+          switchOn(loginSuccessRef)
+          const waitToSwitch = setTimeout(()=>
+        navigateTo("/Admin"),3500) //3.5s
       }
 
     } catch (error) {
