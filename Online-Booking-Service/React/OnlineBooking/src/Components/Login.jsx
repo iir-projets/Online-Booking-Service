@@ -68,6 +68,12 @@ function Login() {
           const waitToSwitch = setTimeout(()=>
         navigateTo("/home"),3500) //3.5s
       }
+      if (data.role == "admin") {
+          console.log("succes")
+          switchOn(loginSuccessRef)
+          const waitToSwitch = setTimeout(()=>
+        navigateTo("/Admin"),3500) //3.5s
+      }
 
     } catch (error) {
       setError(error.message);

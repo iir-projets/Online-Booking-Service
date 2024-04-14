@@ -1,12 +1,42 @@
 import classes from "./ProductDetails.module.css";
 import PropTypes from "prop-types"; // Import PropTypes
-import { useState } from "react";
-import img from "../assets/bike-service.png";
+import { useState, useEffect, useMemo } from "react";
+import bike from "../assets/bike-service.png";
+import delivery from "../assets/delivery-service.png";
+import HomeDelivery from "../assets/home-delivery-service.png";
+import OnlineShopping from "../assets/online-shopping.png";
+import TaxiDriver from "../assets/taxi-driver.png";
+import receptionist from "../assets/receptionist-working-on-her-desk-with-laptop.png";
+import support from "../assets/support.png";
 
 function ProductDetails(props) {
   // States
-  const [data,setData] = useState(props.service)
-  console.log("second component" , data)
+
+  const [data, setData] = useState(props.service);
+  console.log("second component", data);
+  const [image, Setimage] = useState(support);
+
+  //here i am creating a map to link each image to a product
+  // Use useMemo to memoize the 'gallery' object initialization
+  const gallery = useMemo(
+    () =>
+      new Map([
+        [1, support],
+        [2, bike],
+        [3, HomeDelivery],
+        [4, delivery],
+        [5, OnlineShopping],
+        [6, TaxiDriver],
+        [7, receptionist],
+      ]),
+    []
+  );
+
+  useEffect(() => {
+    // Update image whenever props.id changes
+    Setimage(gallery.get(data.id));
+  }, [data.id, gallery]);
+
   // Handle Changes
 
   function SubmitHandler(event) {
@@ -15,11 +45,13 @@ function ProductDetails(props) {
     props.onCancel();
   }
 
+  console.log("props ====> " +image+ data.id);
+
   return (
     <div className={classes.container}>
       <div className="flex w-full bg-white h-full">
         <img
-          src={img}
+          src={image}
           className="w-1/3 h-1/2 mt-8 ml-8 shadow-sm ring-1"
           alt=""
         />
@@ -37,7 +69,7 @@ function ProductDetails(props) {
 
 ProductDetails.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  service: PropTypes.object.isRequired
+  service: PropTypes.object.isRequired,
 };
 
 export default ProductDetails;
