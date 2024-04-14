@@ -53,7 +53,7 @@ public class MySpringAppApplication implements CommandLineRunner {
         User AlteredUser = userRepository.findById(2L).get();
         //AlteredUser.setUserName("admin");
         String token = jwtUtils.generateToken(AlteredUser);
-
+        System.out.println(token);
         //System.out.println(userService.addUser(user));
         //System.out.println(userService.editUser(AlteredUser,token));
 

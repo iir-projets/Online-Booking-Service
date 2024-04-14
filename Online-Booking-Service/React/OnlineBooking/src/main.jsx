@@ -7,13 +7,24 @@ import Container from './Components/Container.jsx';
 import Products from './Components/Products.jsx';
 import Login from './Components/Login.jsx';
 import Admin from './Admin.jsx';
-
+import Loading from './Components/Loading.jsx';
+import Succes from './Components/Succes.jsx';
 
 const router = createBrowserRouter([
   {
     //default to try new features
     path:'/',
-    element: <Admin/>
+    element: <Login/>
+  },
+  {
+    //default to try new features
+    path:'/loading',
+    element: <Loading/>
+  },
+  {
+    //default to try new features
+    path:'/Succes',
+    element: <Succes/>
   },
   {
     //default to try new features
@@ -29,11 +40,6 @@ const router = createBrowserRouter([
     //default for production
     path:'/',
     element: <Login/>
-  },/*
-  {
-    //default to try new features
-    path:'/',
-    element: <Products/>
   },*/
   {
     //default to try new features
