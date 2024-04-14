@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     //default to try new features
     path:'/',
-    element: <Admin/>
+    element: <Login/>
   },
   {
     //default to try new features
@@ -29,11 +29,6 @@ const router = createBrowserRouter([
     //default for production
     path:'/',
     element: <Login/>
-  },/*
-  {
-    //default to try new features
-    path:'/',
-    element: <Products/>
   },*/
   {
     //default to try new features

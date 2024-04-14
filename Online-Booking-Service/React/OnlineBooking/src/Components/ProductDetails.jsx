@@ -8,6 +8,7 @@ import OnlineShopping from "../assets/online-shopping.png";
 import TaxiDriver from "../assets/taxi-driver.png";
 import receptionist from "../assets/receptionist-working-on-her-desk-with-laptop.png";
 import support from "../assets/support.png";
+import { CiCircleCheck } from "react-icons/ci";
 
 function ProductDetails(props) {
   // States
@@ -37,15 +38,39 @@ function ProductDetails(props) {
     Setimage(gallery.get(data.id));
   }, [data.id, gallery]);
 
-  // Handle Changes
+  // Submit Reservatin handling :
+  function makeReservation(event) {
+    event.preventDefault(); // Prevent default form submission
+    const token = localStorage.getItem("token");
+    console.log(token);
+    const requestBody = {
+      productName: data.name,
+      token: token,
+    };
 
-  function SubmitHandler(event) {
-    event.preventDefault();
-    // Pass data to parent component
-    props.onCancel();
+    fetch("http://localhost:9085/reservation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.response == 200) {
+          console.log("reservation made successfully");
+        }
+        // Handle response data as needed
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors
+      });
   }
 
-  console.log("props ====> " +image+ data.id);
+  console.log("props ====> " + image + data.id);
+  console.log(localStorage.getItem("token"));
 
   return (
     <div className={classes.container}>
@@ -61,6 +86,9 @@ function ProductDetails(props) {
           <h1 className=" p-4">Location : {data.location}</h1>
           <h1 className=" p-4">Category : {data.category}</h1>
           <h1 className=" p-4">Description : {data.description}</h1>
+          <button onClick={makeReservation} className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4">
+            Submit Reservation <CiCircleCheck className="mt-1"/>
+          </button>
         </div>
       </div>
     </div>

@@ -27,6 +27,8 @@ public class ReservationController {
 
     @PostMapping("/reservation")
     public Map<String, Object> makeReservation(@RequestBody ReservationRequestDTO requestDTO) {
+        //DTO stands for Data Transfer Object
+        System.out.println("for testing" + requestDTO);
         Map<String, Object> response = reservationService.makeReservation(requestDTO.getProductName(), requestDTO.getToken());
         System.out.println(response);
         return response;
