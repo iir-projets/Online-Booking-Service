@@ -57,24 +57,19 @@ function Login() {
         setError("Invalid Credentials");
         errorRef.current.classList.remove("hidden");
         errorRef.current.classList.add("block");
-        switchOn(loginFailRef)
-        const waitToTurnOff = setTimeout(()=>
-        switchOff(loginFailRef),2000)//2s
-
+        switchOn(loginFailRef);
+        const waitToTurnOff = setTimeout(() => switchOff(loginFailRef), 2000); //2s
       }
       if (data.role == "user") {
-          console.log("succes")
-          switchOn(loginSuccessRef)
-          const waitToSwitch = setTimeout(()=>
-        navigateTo("/home"),3500) //3.5s
+        console.log("succes");
+        switchOn(loginSuccessRef);
+        const waitToSwitch = setTimeout(() => navigateTo("/home"), 3500); //3.5s
       }
       if (data.role == "admin") {
-          console.log("succes")
-          switchOn(loginSuccessRef)
-          const waitToSwitch = setTimeout(()=>
-        navigateTo("/Admin"),3500) //3.5s
+        console.log("succes");
+        switchOn(loginSuccessRef);
+        const waitToSwitch = setTimeout(() => navigateTo("/Admin"), 3500); //3.5s
       }
-
     } catch (error) {
       setError(error.message);
     }
@@ -83,7 +78,9 @@ function Login() {
   return (
     <div>
       <div
-        className={`${classes.backdrop} ${isLoginFailVisible ? "visible" : "hidden"}`}
+        className={`${classes.backdrop} ${
+          isLoginFailVisible ? "visible" : "hidden"
+        }`}
         ref={loginFailRef}
       >
         <div className="ml-96">
@@ -92,7 +89,9 @@ function Login() {
       </div>
 
       <div
-        className={`${classes.backdrop} ${isLoginSuccessVisible ? "visible" : "hidden"}`}
+        className={`${classes.backdrop} ${
+          isLoginSuccessVisible ? "visible" : "hidden"
+        }`}
         ref={loginSuccessRef}
       >
         <div className="w-2/6 ml-96">
