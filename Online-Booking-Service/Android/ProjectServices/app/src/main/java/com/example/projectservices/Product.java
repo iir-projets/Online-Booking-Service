@@ -9,8 +9,17 @@ public class Product {
     private String location;
     private int price;
 
+
     public Product(long id, String name, String description, String category, String availability, String location, int price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.availability = availability;
+        this.location = location;
+        this.price = price;
     }
+
 
     // Getters et Setters
     public Long getId() { return id; }

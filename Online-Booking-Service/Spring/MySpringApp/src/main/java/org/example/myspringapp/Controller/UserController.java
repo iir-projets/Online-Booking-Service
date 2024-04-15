@@ -44,6 +44,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/history")
+    public Map<String, Object> getBookingHistory(@RequestParam String token) {
+        Map<String, Object> response = userService.getBookingHistory(token);
+        return response;
+    }
+    
+
     @PostMapping("/authenticate")
     public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {
         return userService.authenticateUser(credentials);
