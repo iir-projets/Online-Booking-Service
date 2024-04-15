@@ -90,7 +90,7 @@ public class UserService {
     public Map<String,Object> getBookingHistory(User user , String token){
         Map<String,Object> response = new HashMap<>();
 
-        if(jwtUtils.isTokenExpired(token)){
+        if(!jwtUtils.isTokenExpired(token)){
             response.put("response",501);
             return response;
         }
