@@ -40,17 +40,10 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getAllUsers(@RequestHeader("Authorization") String token) {
         User  user = new User();
-
         Map<String, Object> response = userService.getAllusers(  user , token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-    @GetMapping("/history")
-    public ResponseEntity<Map<String, Object>> getBookingHistory(@RequestHeader("Authorization") String token) {
-        User  user = new User();
-        Map<String, Object> response = userService.getBookingHistory( user ,token);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
+    
     @PostMapping("/authenticate")
     public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {
         return userService.authenticateUser(credentials);

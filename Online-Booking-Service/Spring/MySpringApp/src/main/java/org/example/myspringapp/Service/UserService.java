@@ -87,13 +87,17 @@ public class UserService {
         return response;
     }
 
-    public Map<String,Object> getBookingHistory(User user , String token){
+    public Map<String,Object> getBookingHistory(String token){
         Map<String,Object> response = new HashMap<>();
+        System.out.println("token =" + token);
 
         if(jwtUtils.isTokenExpired(token)){
             response.put("response",501);
             return response;
         }
+        String username = jwtUtils.extractUserName(token);
+        System.out.println(username);
+        User user = userRepository.findByUserName(username);
         List<Reservation> reservationList = reservationRepository.findByUser(user);
         response.put("response",200);
         response.put("data",reservationList);

@@ -83,7 +83,7 @@ function Login() {
         }`}
         ref={loginFailRef}
       >
-        <div className="ml-96">
+        <div className="ml-96 flex justify-start">
           <LoginFail />
         </div>
       </div>
