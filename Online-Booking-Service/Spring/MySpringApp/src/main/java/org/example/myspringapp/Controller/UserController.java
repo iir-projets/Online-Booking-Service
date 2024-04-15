@@ -43,7 +43,7 @@ public class UserController {
         Map<String, Object> response = userService.getAllusers(  user , token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    
+
     @PostMapping("/authenticate")
     public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {
         return userService.authenticateUser(credentials);
