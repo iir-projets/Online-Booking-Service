@@ -142,11 +142,10 @@ public class ProductActivity extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
-                    // Handle response
                     parseHistory(response);
                 },
                 error -> {
-                    // Handle error
+
                     handleError(error);
                 }) {
             @Override

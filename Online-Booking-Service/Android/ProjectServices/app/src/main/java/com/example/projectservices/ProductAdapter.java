@@ -73,7 +73,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    // Method to show product details dialog
+
     private void showProductDetailsDialog(Product product) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Product Details");
