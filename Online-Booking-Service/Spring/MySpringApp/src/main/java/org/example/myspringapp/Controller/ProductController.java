@@ -43,8 +43,28 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @GetMapping("/users")
-    public List<User> getusers(){
-        return userRepository.findAll();
+    @PostMapping("/services/add")
+    public Map<String,Object> addProduct(@RequestParam String token,@RequestBody Product product){
+        Map<String,Object> response = productServices.addProduct(product,token);
+        System.out.println(response);
+        //Tested in Postman Successfully ✅
+        return response;
+    }
+
+    @PostMapping("/services/edit")
+    public Map<String,Object> editProduct(@RequestParam String token,@RequestBody Product product){
+        Map<String,Object> response = productServices.editProduct(product,token);
+        System.out.println(response);
+        //Tested in Postman Successfully ✅
+        return response;
+    }
+
+
+    @PostMapping("/services/delete")
+    public Map<String,Object> deleteProduct(@RequestParam String token,@RequestBody Product product){
+        Map<String,Object> response = productServices.deleteProducts(product,token);
+        System.out.println(response);
+        //Tested in Postman Successfully ✅
+        return response;
     }
 }
