@@ -9,12 +9,18 @@ import Login from './Components/Login.jsx';
 import Admin from './Admin.jsx';
 import Loading from './Components/Loading.jsx';
 import Succes from './Components/Succes.jsx';
+import SessionExpired from './Components/SessionExpired.jsx';
 
 const router = createBrowserRouter([
   {
     //default to try new features
     path:'/',
     element: <Login/>
+  },
+  {
+    //default to try new features
+    path:'/session',
+    element: <SessionExpired/>
   },
   {
     //default to try new features

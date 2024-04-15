@@ -57,6 +57,7 @@ function ProductDetails(props) {
     // Update image whenever props.id changes
     Setimage(gallery.get(data.id));
   }, [data.id, gallery]);
+  
 
   // Submit Reservatin handling :
   function makeReservation(event) {
