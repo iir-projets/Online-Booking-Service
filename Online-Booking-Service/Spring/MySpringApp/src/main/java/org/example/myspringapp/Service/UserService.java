@@ -91,7 +91,7 @@ public class UserService {
         Map<String,Object> response = new HashMap<>();
         System.out.println("token =" + token);
 
-        if(!jwtUtils.isTokenExpired(token)){
+        if(jwtUtils.isTokenExpired(token)){
             response.put("response",501);
             return response;
         }
