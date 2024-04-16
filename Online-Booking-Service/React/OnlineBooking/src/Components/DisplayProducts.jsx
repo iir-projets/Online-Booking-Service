@@ -4,10 +4,24 @@ function DisplayProducts(props) {
   // Initialize state for products using props.data
   const [products, setProducts] = useState(props.data);
 
-  useEffect(() => {
+
+
+  //Logic and methodes
+
+ /* useEffect(() => {
     setProducts(props.data); // Update products when props.data changes
   }, [props.data]);
-  console.log(products);
+  console.log(products);*/
+
+  useEffect(() => {
+    setProducts(props.data); // Update products when props.data changes
+  }, [props.data, props.type]);
+
+  
+  
+
+  //Debugging :
+  //console.log("type of operation is  " ,props.type)
 
   return (
     <>
@@ -32,12 +46,15 @@ function DisplayProducts(props) {
               <button
                 href="#"
                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , "edit")}
+
               >
                 Edit
               </button>
               <button
                 href="#"
                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , "delete")}
               >
                 Delete
               </button>
