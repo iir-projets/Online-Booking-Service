@@ -16,17 +16,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.projectservices.Product;
-import com.example.projectservices.ProductAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProductActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -41,7 +38,11 @@ public class ProductActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         productList = new ArrayList<>();
-        adapter = new ProductAdapter(this, productList);
+
+        SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        final String token = sharedPref.getString("token", "");
+
+        adapter = new ProductAdapter(this, productList, token);
         recyclerView.setAdapter(adapter);
 
         Button historyButton = findViewById(R.id.historyButton);
@@ -49,7 +50,6 @@ public class ProductActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductActivity.this, HistoryActivity.class);
             startActivity(intent);
         });
-
 
         fetchProductsFromApi();
     }
@@ -68,11 +68,9 @@ public class ProductActivity extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                 response -> {
-                    // Handle response
                     parseProducts(response);
                 },
                 error -> {
-                    // Handle error
                     handleError(error);
                 }) {
             @Override
@@ -113,9 +111,6 @@ public class ProductActivity extends AppCompatActivity {
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
 
-                    // Vérifiez que les valeurs sont correctement extraites
-                    Log.d("ProductActivity", "Product " + i + ": " + name + ", " + description + ", " + category + ", " + availability + ", " + location + ", " + price);
-
                     Product product = new Product(id, name, description, category, availability, location, price);
                     productList.add(product);
                 }
@@ -129,10 +124,51 @@ public class ProductActivity extends AppCompatActivity {
         }
     }
 
+    public void makeReservation(String productName, String token) {
+        if (token.isEmpty()) {
+            Toast.makeText(this, "Authentication token not found. Please login again.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String url = "http://10.0.2.2:9085/reservation";
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("productName", productName);
+            requestBody.put("token", token);
+            Log.d("makeReservation", "Sending reservation request: " + requestBody.toString());  // Log the request body
+        } catch (JSONException e) {
+            Toast.makeText(this, "Error creating JSON data", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                response -> {
+                    try {
+                        int responseCode = response.getInt("response");
+                        if (responseCode == 200) {
+                            Toast.makeText(this, "Reservation successful!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Reservation failed with response code: " + responseCode, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "Error parsing reservation response", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                },
+                error -> Toast.makeText(this, "Failed to make reservation: " + error.toString(), Toast.LENGTH_LONG).show()
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(jsonObjectRequest);
+    }
+
     private void handleError(VolleyError error) {
         Toast.makeText(this, "Failed to retrieve data: " + error.toString(), Toast.LENGTH_LONG).show();
     }
-
-
-
 }
