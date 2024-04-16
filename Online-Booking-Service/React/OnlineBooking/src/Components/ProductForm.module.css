@@ -1,0 +1,10 @@
+.container {
+  background: white;
+  width: 950px;
+  height: 550px;
+}
+
+.text-top {
+  vertical-align: top;
+  white-space: normal;
+}

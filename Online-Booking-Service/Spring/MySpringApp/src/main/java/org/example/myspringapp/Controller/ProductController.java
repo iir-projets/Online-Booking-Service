@@ -45,6 +45,7 @@ public class ProductController {
 
     @PostMapping("/services/add")
     public Map<String,Object> addProduct(@RequestParam String token,@RequestBody Product product){
+        System.out.println("my product is " + product);
         Map<String,Object> response = productServices.addProduct(product,token);
         System.out.println(response);
         //Tested in Postman Successfully ✅
