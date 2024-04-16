@@ -138,28 +138,25 @@ public class ProductActivity extends AppCompatActivity {
     private void fetchHistoryFromApi() {
         SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         final String token = sharedPref.getString("token", "");
-        String url = "http://10.0.2.2:9085/history";
+        if (token.isEmpty()) {
+            Toast.makeText(this, "No authentication token. Please log in again.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Append token as a query parameter
+        String url = "http://10.0.2.2:9085/history?token=" + token;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    parseHistory(response);
-                },
-                error -> {
-
-                    handleError(error);
-                }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", token);
-                return headers;
-            }
-        };
+                response -> parseHistory(response),
+                error -> handleError(error)
+        );
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
 
+
+    // Méthode pour analyser la réponse JSON contenant l'historique des réservations
     // Méthode pour analyser la réponse JSON contenant l'historique des réservations
     private void parseHistory(JSONObject response) {
         try {
@@ -168,12 +165,26 @@ public class ProductActivity extends AppCompatActivity {
                 JSONArray jsonArray = response.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject reservationObj = jsonArray.getJSONObject(i);
-                    String reservationId = reservationObj.getString("id");
-                    String productName = reservationObj.getString("product_name");
-                    String date = reservationObj.getString("date");
 
-                    // Afficher les détails de la réservation dans la console
-                    Log.d("Reservation", "ID: " + reservationId + ", Product Name: " + productName + ", Date: " + date);
+                    // Accessing nested product object
+                    JSONObject productObj = reservationObj.getJSONObject("product");
+                    // Accessing nested user object, if needed
+                    JSONObject userObj = reservationObj.getJSONObject("user");
+
+                    // Extracting information from the nested product object
+                    String reservationId = reservationObj.optString("id", "No ID");
+                    String productName = productObj.optString("name", "No Product Name");
+                    String description = productObj.optString("description", "No Description");
+                    String category = productObj.optString("category", "No Category");
+                    String availability = productObj.optString("availability", "Unavailable");
+                    int price = productObj.optInt("price", 0);
+                    String location = productObj.optString("location", "No Location");
+                    String reservationDate = reservationObj.optString("reservationDate", "No Date");
+
+                    // Logging for verification
+                    Log.d("Reservation", "ID: " + reservationId + ", Product Name: " + productName + ", Description: " + description +
+                            ", Category: " + category + ", Available: " + availability + ", Price: " + price + ", Location: " + location +
+                            ", Date: " + reservationDate);
                 }
             } else {
                 Toast.makeText(this, "Failed to retrieve booking history. Response code: " + responseCode, Toast.LENGTH_LONG).show();
@@ -183,4 +194,5 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 }
