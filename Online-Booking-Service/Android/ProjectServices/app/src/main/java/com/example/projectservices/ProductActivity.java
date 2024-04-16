@@ -1,6 +1,7 @@
 package com.example.projectservices;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,14 +44,12 @@ public class ProductActivity extends AppCompatActivity {
         adapter = new ProductAdapter(this, productList);
         recyclerView.setAdapter(adapter);
 
-        // Ajout du bouton "Historique"
         Button historyButton = findViewById(R.id.historyButton);
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchHistoryFromApi();
-            }
+        historyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductActivity.this, HistoryActivity.class);
+            startActivity(intent);
         });
+
 
         fetchProductsFromApi();
     }
@@ -134,65 +133,6 @@ public class ProductActivity extends AppCompatActivity {
         Toast.makeText(this, "Failed to retrieve data: " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
-    // Méthode pour récupérer l'historique à partir de l'API
-    private void fetchHistoryFromApi() {
-        SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        final String token = sharedPref.getString("token", "");
-        if (token.isEmpty()) {
-            Toast.makeText(this, "No authentication token. Please log in again.", Toast.LENGTH_LONG).show();
-            return;
-        }
 
-        // Append token as a query parameter
-        String url = "http://10.0.2.2:9085/history?token=" + token;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> parseHistory(response),
-                error -> handleError(error)
-        );
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(jsonObjectRequest);
-    }
-
-
-    // Méthode pour analyser la réponse JSON contenant l'historique des réservations
-    // Méthode pour analyser la réponse JSON contenant l'historique des réservations
-    private void parseHistory(JSONObject response) {
-        try {
-            int responseCode = response.getInt("response");
-            if (responseCode == 200) {
-                JSONArray jsonArray = response.getJSONArray("data");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject reservationObj = jsonArray.getJSONObject(i);
-
-                    // Accessing nested product object
-                    JSONObject productObj = reservationObj.getJSONObject("product");
-                    // Accessing nested user object, if needed
-                    JSONObject userObj = reservationObj.getJSONObject("user");
-
-                    // Extracting information from the nested product object
-                    String reservationId = reservationObj.optString("id", "No ID");
-                    String productName = productObj.optString("name", "No Product Name");
-                    String description = productObj.optString("description", "No Description");
-                    String category = productObj.optString("category", "No Category");
-                    String availability = productObj.optString("availability", "Unavailable");
-                    int price = productObj.optInt("price", 0);
-                    String location = productObj.optString("location", "No Location");
-                    String reservationDate = reservationObj.optString("reservationDate", "No Date");
-
-                    // Logging for verification
-                    Log.d("Reservation", "ID: " + reservationId + ", Product Name: " + productName + ", Description: " + description +
-                            ", Category: " + category + ", Available: " + availability + ", Price: " + price + ", Location: " + location +
-                            ", Date: " + reservationDate);
-                }
-            } else {
-                Toast.makeText(this, "Failed to retrieve booking history. Response code: " + responseCode, Toast.LENGTH_LONG).show();
-            }
-        } catch (JSONException e) {
-            Toast.makeText(this, "Error parsing JSON data", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -98,7 +98,7 @@ public class JWTUtils {
         }catch (Exception e){
             System.out.println("token not valid");
             System.out.println(e);
-            return true;
+            return false;
         }
 
         //return extractClaims(token,Claims::getExpiration).before(new Date());
