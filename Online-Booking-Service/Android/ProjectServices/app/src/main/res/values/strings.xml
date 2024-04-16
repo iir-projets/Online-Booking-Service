@@ -16,4 +16,5 @@
     <string name="sujet">Sujet :</string>
     <string name="titre">Titre :</string>
     <string name="formulaire">Formulaire</string>
+    <string name="return_to_products">Return to Products</string>
 </resources>
