@@ -51,14 +51,12 @@ function Products() {
         throw new Error("Token not found in localStorage");
       }
 
-      const response = await fetch("http://localhost:9085/services", {
+      const response = await fetch(`http://localhost:9085/services?token=${token}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Include the token in the Authorization header
-          Authorization: `Bearer ${token}`,
+
         },
-        body: token,
       });
 
       if (!response.ok) {
