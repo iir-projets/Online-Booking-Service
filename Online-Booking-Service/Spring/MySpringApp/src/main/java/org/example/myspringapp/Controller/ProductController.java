@@ -34,7 +34,11 @@ public class ProductController {
     @PostMapping("/services")
     public Map<String,Object> getAllProducts(@RequestBody String token){
         System.out.println("bug");
-        Map<String ,Object> response = productServices.sortByPriceDESC(token);
+
+        String newToken2 = token.split("\"")[3].trim();
+        System.out.println("2  / "+newToken2);
+
+        Map<String ,Object> response = productServices.sortByPriceDESC(newToken2);
         System.out.println(response);
         return response;
     }
