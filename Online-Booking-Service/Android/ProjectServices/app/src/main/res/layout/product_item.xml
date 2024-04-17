@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    tools:context=".ProductDetailActivity">
+    tools:context=".ProductActivity">
 
     <ImageView
         android:id="@+id/productImage"
@@ -18,88 +18,93 @@
 
     <TextView
         android:id="@+id/productName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="214dp"
+        android:layout_height="24dp"
         android:text="Product Name"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/productImage"
-        app:layout_constraintTop_toTopOf="@id/productImage"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/productDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Description here..."
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/productName"
-        app:layout_constraintTop_toBottomOf="@id/productName" />
 
     <TextView
         android:id="@+id/productCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="76dp"
         android:text="Category"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/productDescription"
-        app:layout_constraintTop_toBottomOf="@id/productDescription" />
-
-    <TextView
-        android:id="@+id/productPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Price"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/productCategory"
-        app:layout_constraintTop_toBottomOf="@id/productCategory" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/productAvailability"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="Availability"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/productPrice"
+        app:layout_constraintStart_toStartOf="@+id/productPrice"
         app:layout_constraintTop_toBottomOf="@id/productPrice" />
 
     <TextView
-        android:id="@+id/productLocation"
+        android:id="@+id/productPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Location"
+        android:layout_marginTop="12dp"
+        android:text="Price"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/productAvailability"
-        app:layout_constraintTop_toBottomOf="@id/productAvailability" />
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/btnReserve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_bg"
         android:text="@string/reserve"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/productLocation"
-        app:layout_constraintTop_toBottomOf="@id/productLocation" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productAvailability" />
 
-    <!-- Margin divider -->
     <View
         android:id="@+id/marginDivider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="32dp"
         android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnReserve"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnReserve" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="Category :"
+        app:layout_constraintBottom_toTopOf="@+id/productCategory"
+        app:layout_constraintStart_toStartOf="@+id/productCategory"
+        app:layout_constraintTop_toBottomOf="@+id/productName"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Price :"
+        app:layout_constraintStart_toStartOf="@+id/productCategory"
+        app:layout_constraintTop_toBottomOf="@+id/productCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,12 +14,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private Context context;
     private List<Product> productList;
-    private String token;  // Token for making reservations
+    private String token;
 
     public ProductAdapter(Context context, List<Product> productList, String token) {
         this.context = context;
         this.productList = productList;
-        this.token = token;  // Initialize token from constructor
+        this.token = token;
     }
 
     @Override
@@ -32,11 +32,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-        holder.productDescription.setText(product.getDescription());
+        //holder.productDescription.setText(product.getDescription());
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
         holder.productAvailability.setText(product.getAvailability());
         holder.productCategory.setText(product.getCategory());
-        holder.productLocation.setText(product.getLocation());
+        //holder.productLocation.setText(product.getLocation());
 
         // Set a click listener for the reserve button
         holder.btnReserve.setOnClickListener(view -> {
@@ -58,11 +58,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
-            productDescription = itemView.findViewById(R.id.productDescription);
+            //productDescription = itemView.findViewById(R.id.productDescription);
             productPrice = itemView.findViewById(R.id.productPrice);
             productAvailability = itemView.findViewById(R.id.productAvailability);
             productCategory = itemView.findViewById(R.id.productCategory);
-            productLocation = itemView.findViewById(R.id.productLocation);
+            //productLocation = itemView.findViewById(R.id.productLocation);
             btnReserve = itemView.findViewById(R.id.btnReserve);
         }
     }
