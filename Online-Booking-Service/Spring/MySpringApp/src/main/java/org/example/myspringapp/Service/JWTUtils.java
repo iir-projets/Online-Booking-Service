@@ -70,31 +70,21 @@ public class JWTUtils {
     }
 
     public Date extractExpiration(String token) {
-
-        System.out.println(secretKey);
     try{
-        System.out.println("claims ");
         Date claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getIssuedAt();
-
         Date dateExpiration = new Date(claims.getTime()+ExpirationTime);
-        System.out.println("extractExpiration : "+dateExpiration);
+        System.out.println("Token Expiration Date : "+dateExpiration);
         return dateExpiration;
 
     }catch (Exception e){
-
         System.out.println("errer " + e.getMessage());
-
     }
-
-
         System.out.println("Date claims = Jwts.parserBuilder()");
-
-
         return null;
         //return claims.getExpiration();
     }
@@ -108,12 +98,12 @@ public class JWTUtils {
 
     public boolean isTokenExpired(String token){
         try {
-            System.out.println(token);
-            System.out.println("expiration " + extractExpiration(token));
-            System.out.println("now " + new Date());
-            System.out.println(extractExpiration(token).before(new Date()));
-            return extractExpiration(token).before(new Date());
+            //System.out.println(token);
+            //System.out.println("expiration " + extractExpiration(token));
+            //System.out.println("now " + new Date());
+            //System.out.println(extractExpiration(token).before(new Date()));
 
+            return extractExpiration(token).before(new Date());
         }catch (Exception e){
 
             System.out.println("token not valid");
