@@ -132,7 +132,7 @@ function Products() {
           </div>
         </div>
         {/* Product Container   */}
-        <div className=" mr-10 ml-auto p-5 border-2 w-3/5 flex flex-wrap gap-10 justify-between">
+        <div className=" mr-10 ml-auto p-5 border-2 w-3/5 flex flex-wrap gap-10">
           {services.map((services) => (
             <Container
               key={services.id}

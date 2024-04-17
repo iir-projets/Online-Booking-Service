@@ -12,6 +12,11 @@ function Admin() {
   const [services, setServices] = useState([]);
   const [visibility, setVisibility] = useState(false);
   const [type , setType ] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [productLocation, setProductLocation] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productDescription, setProductDescription] = useState("");
 
   useEffect(() => {
     fetchDataFromApi();
@@ -79,7 +84,35 @@ function Admin() {
       console.error("There was a problem adding the note:", error);
     }
   };
+  const editProductHandle = async (noteData) => {
+    const token = localStorage.getItem("token"); // Assuming token is stored locally after login
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(noteData), // Send noteData as the request body
+    };
+  
+    try {
+      const response = await fetch(
+        `http://localhost:9090/demandes/edit?token=${token}`, // Include the token as a URL query parameter
+        requestOptions
+      );
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+      console.log("Note added successfully:", data);
+      fetchDataFromApi();
+    } catch (error) {
+      console.error("There was a problem adding the note:", error);
+    }
+  };
   const switchVisibilityOn = (type) => {
+    console.log(type)
     setType(type)
     setVisibility(true);
   };
@@ -88,9 +121,15 @@ function Admin() {
     setVisibility(false);
   };
 
-  const handleButton = (name,category, location, price ,type) => {
+  const handleButton = (name,category, location, price ,desc ,type) => {
     // Perform edit action, e.g., show modal with details pre-filled
-    console.log("Editing product:",name , category, location, price,type);
+    switchVisibilityOn(type)
+    console.log("Editing product:",name , category, location, price,desc,type);
+    setProductCategory(category)
+    setProductDescription(desc)
+    setProductLocation(location)
+    setProductName(name)
+    setProductPrice(price)
   };
 
   return (
@@ -101,6 +140,11 @@ function Admin() {
         <Modal onClose={switchVisibilityOff}>
           <ProductForm
           type={type}
+          name={productName}
+          desc={productDescription}
+          location={productLocation}
+          price={productPrice}
+          category={productCategory}
           />
         </Modal>
       )}
