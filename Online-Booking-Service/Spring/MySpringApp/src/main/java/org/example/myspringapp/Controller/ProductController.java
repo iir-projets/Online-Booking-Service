@@ -32,13 +32,8 @@ public class ProductController {
     @Autowired
     UserRepository userRepository;
     @PostMapping("/services")
-    public Map<String,Object> getAllProducts(@RequestBody String token){
-        System.out.println("bug");
-
-        String newToken2 = token.split("\"")[3].trim();
-        System.out.println("2  / "+newToken2);
-
-        Map<String ,Object> response = productServices.sortByPriceDESC(newToken2);
+    public Map<String,Object> getAllProducts(@RequestParam String token){
+        Map<String ,Object> response = productServices.sortByPriceDESC(token);
         System.out.println(response);
         return response;
     }
