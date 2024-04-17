@@ -46,7 +46,7 @@ function DisplayProducts(props) {
               <button
                 href="#"
                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , "edit")}
+                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , product.description , "edit")}
 
               >
                 Edit
@@ -54,7 +54,7 @@ function DisplayProducts(props) {
               <button
                 href="#"
                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , "delete")}
+                onClick={() => props.handleEdit(product.name, product.category, product.location, product.price , product.description , "delete")}
               >
                 Delete
               </button>

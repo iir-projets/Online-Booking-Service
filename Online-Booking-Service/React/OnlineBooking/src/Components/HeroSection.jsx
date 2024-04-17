@@ -1,11 +1,8 @@
 import Animation from "../Components/Animation";
 import { TypeAnimation } from "react-type-animation";
 
-
-
 function HeroSection() {
-  console.log(localStorage.getItem("token"))
-  
+  console.log(localStorage.getItem("token"));
 
   return (
     <>
@@ -31,9 +28,7 @@ function HeroSection() {
           />
           <p>______________</p>
           <button
-            className="flex ml-12 border-2 p-4 font-thin font-serif text-l bg-red-400 mr-8 rounded-lg text-white
-         hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl
-         hover:translate-y-6"
+            className="flex ml-12 border-2 p-4 font-thin font-serif text-l bg-red-400 mr-8 rounded-lg text-white hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl hover:translate-y-6 gap-2 dark:bg-purple-500 dark:hover:bg-white dark:hover:border-purple-500 dark:hover:text-purple-500"
           >
             Join us Now !
           </button>
