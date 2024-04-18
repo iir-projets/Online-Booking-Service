@@ -1,13 +1,16 @@
 package com.example.projectservices;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -22,21 +25,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         this.token = token;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-        //holder.productDescription.setText(product.getDescription());
+       // holder.productDescription.setText(product.getDescription());
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
-        holder.productAvailability.setText(product.getAvailability());
+        //holder.productAvailability.setText(product.getAvailability());
         holder.productCategory.setText(product.getCategory());
         //holder.productLocation.setText(product.getLocation());
+
+        // Set a click listener for the image view to show product details
+        holder.productImage.setOnClickListener(view -> {
+            showProductDetails(product);
+        });
 
         // Set a click listener for the reserve button
         holder.btnReserve.setOnClickListener(view -> {
@@ -54,16 +63,34 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName, productDescription, productPrice, productAvailability, productCategory, productLocation;
         public Button btnReserve;
+        public ImageView productImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
             //productDescription = itemView.findViewById(R.id.productDescription);
             productPrice = itemView.findViewById(R.id.productPrice);
-            productAvailability = itemView.findViewById(R.id.productAvailability);
+            //productAvailability = itemView.findViewById(R.id.productAvailability);
             productCategory = itemView.findViewById(R.id.productCategory);
             //productLocation = itemView.findViewById(R.id.productLocation);
             btnReserve = itemView.findViewById(R.id.btnReserve);
+            productImage = itemView.findViewById(R.id.productImage);
         }
+    }
+
+    private void showProductDetails(Product product) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Product Details");
+        builder.setMessage("Name: " + product.getName() +
+                "\nDescription: " + product.getDescription() +
+                "\nPrice: $" + product.getPrice() +
+                "\nAvailability: " + product.getAvailability() +
+                "\nCategory: " + product.getCategory() +
+                "\nLocation: " + product.getLocation());
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

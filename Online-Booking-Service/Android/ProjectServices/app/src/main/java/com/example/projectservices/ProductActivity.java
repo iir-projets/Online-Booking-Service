@@ -3,6 +3,7 @@ package com.example.projectservices;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +65,8 @@ public class ProductActivity extends AppCompatActivity {
             return;
         }
 
-        String url = "http://10.0.2.2:9085/services";
+        // Append the token as a query parameter
+        String url = "http://10.0.2.2:9085/services?token=" + Uri.encode(token);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                 response -> {
@@ -74,18 +76,6 @@ public class ProductActivity extends AppCompatActivity {
                     handleError(error);
                 }) {
             @Override
-            public byte[] getBody() {
-                try {
-                    JSONObject jsonBody = new JSONObject();
-                    jsonBody.put("token", token);
-                    return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
@@ -94,6 +84,7 @@ public class ProductActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
+
 
     private void parseProducts(JSONObject response) {
         try {
