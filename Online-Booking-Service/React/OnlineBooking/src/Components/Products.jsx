@@ -12,18 +12,25 @@ function Products() {
   const [visibility, setVisibility] = useState(false);
   const [services, setServices] = useState([]);
   const [details , setDetails] = useState();
+  const [price , setPrice] = useState(0);
   const options = ["Category 1", "Category 2", "Category 3"];
 
   useEffect(() => {
     console.log(details); // This will log the updated state value
   }, [details]); // useEffect will run whenever details state changes
 
+
+  const handlePriceChange = (event) => {
+    const newPrice = parseInt(event.target.value, 10); // Parse the value as an integer
+    setPrice(newPrice); // Set the new price value
+    FilterByPrice(newPrice)
+  };
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleOptionSelect = (option) => {
-    
     setSelectedOption(option);
     setIsOpen(false);
     FilterCategory(option)
@@ -108,6 +115,39 @@ function Products() {
       return null;
     }
   };
+  const FilterByPrice = async (maxprice) => {
+    if(selectedOption === ""){
+      console.log("Default option")
+    }
+    try {
+      const queryParams = new URLSearchParams({
+        token: localStorage.getItem("token"),
+        price: maxprice,
+      });
+  
+      const url = `http://localhost:9085/services/price?${queryParams}`;
+  
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const ApiResponse = await response.json();
+      setServices(ApiResponse.data);
+
+      console.log("Data from API:", ApiResponse);
+      return ApiResponse;
+    } catch (error) {
+      console.error("There was a problem fetching data from the API:", error);
+      return null;
+    }
+  };
 
   return (
     <>
@@ -154,13 +194,17 @@ function Products() {
             >
               Price Range :
             </label>
-            <div>
+            <div className="flex justify-center items-center">
               <input
                 id="price-range"
                 type="range"
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                 name="slide"
+                onChange={handlePriceChange}
+                value={price}
+                max={500}
               />
+              <span className="text-center">{price}</span>
             </div>
           </div>
         </div>

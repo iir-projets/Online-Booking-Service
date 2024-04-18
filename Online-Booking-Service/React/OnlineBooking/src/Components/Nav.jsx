@@ -13,8 +13,7 @@ function Nav() {
   const SessionAnimation = useRef(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-
-  const toggleDarkMode = () => {
+  /*co= () => {
     const newMode = !isDarkMode; // Calculate the new mode before updating state
     setIsDarkMode(newMode); // Update the state
     // Update dark mode styles on the document based on the new mode
@@ -23,13 +22,11 @@ function Nav() {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  };
-
-
+  };*/
 
     const setLightMode = () => {
     document. querySelector("body") . setAttribute('data-theme', 'light')
-    console.log("set in light mode")
+    //console.log("set in light mode")
     }
     setLightMode()
 
@@ -141,7 +138,7 @@ function Nav() {
         </div>
         {/*   Dark/Light Mode Toogle    */}
         <div className="flex justify-center items-center">
-          <Switch onChange={toggleDarkMode} checked={isDarkMode}  /> 
+          <Switch onChan checked={isDarkMode}  /> 
         </div>
         {/*     Logout button     */}
         <button

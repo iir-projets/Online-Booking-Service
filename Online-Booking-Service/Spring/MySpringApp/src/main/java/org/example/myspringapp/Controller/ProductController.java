@@ -52,6 +52,15 @@ public class ProductController {
 
     }
 
+    @PostMapping("/services/price")
+    public Map<String,Object> FilterByPrice(@RequestParam String token,@RequestParam Integer price){
+        Map<String ,Object> response = productServices.FilterByPrice(token,price);
+        System.out.println(response);
+        return response;
+
+    }
+
+
     @GetMapping("/demandes")
     public List<Product> getAllProducts() {
         return productRepository.findAll();
