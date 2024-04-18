@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent;
                         switch (role) {
                             case "admin":
-                                intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                                intent = new Intent(LoginActivity.this, ProductAdminActivity.class);
                                 break;
                             case "user":
                                 intent = new Intent(LoginActivity.this, ProductActivity.class);
