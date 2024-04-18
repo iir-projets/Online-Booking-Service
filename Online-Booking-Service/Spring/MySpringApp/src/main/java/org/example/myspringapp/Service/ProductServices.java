@@ -159,4 +159,22 @@ public class ProductServices {
 
         return response;
     }
+
+    public Map<String,Object> FilterByPrice(String token,Integer price){
+        Map<String,Object> response = new HashMap<>();
+
+        if (jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+        List<Product> productList = productRepository.findByPriceLessThan(price);
+        if (productList == null){
+            response.put("response" , 404);
+            return response;
+        }
+        response.put("response",200);
+        response.put("data",productList);
+
+        return response;
+    }
 }

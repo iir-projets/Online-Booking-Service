@@ -37,6 +37,21 @@ public class ProductController {
         System.out.println(response);
         return response;
     }
+
+    @PostMapping("/services/category")
+    public Map<String,Object> FilterByCategory(@RequestParam String token,@RequestParam String category){
+        if(category.equals("")){
+            Map<String ,Object> response = productServices.sortByPriceDESC(token);
+            System.out.println(response);
+            return response;
+        }else {
+            Map<String ,Object> response = productServices.filterByCategory(category,token);
+            System.out.println(response);
+            return response;
+        }
+
+    }
+
     @GetMapping("/demandes")
     public List<Product> getAllProducts() {
         return productRepository.findAll();

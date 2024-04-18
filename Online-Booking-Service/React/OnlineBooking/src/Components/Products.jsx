@@ -23,8 +23,10 @@ function Products() {
   };
 
   const handleOptionSelect = (option) => {
+    
     setSelectedOption(option);
     setIsOpen(false);
+    FilterCategory(option)
   };
 
   const switchVisibility = (visible) => {
@@ -56,6 +58,39 @@ function Products() {
         headers: {
           "Content-Type": "application/json",
 
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const ApiResponse = await response.json();
+      setServices(ApiResponse.data);
+
+      console.log("Data from API:", ApiResponse);
+      return ApiResponse;
+    } catch (error) {
+      console.error("There was a problem fetching data from the API:", error);
+      return null;
+    }
+  };
+  const FilterCategory = async (option) => {
+    if(selectedOption === ""){
+      console.log("Default option")
+    }
+    try {
+      const queryParams = new URLSearchParams({
+        token: localStorage.getItem("token"),
+        category: option,
+      });
+  
+      const url = `http://localhost:9085/services/category?${queryParams}`;
+  
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
       });
 

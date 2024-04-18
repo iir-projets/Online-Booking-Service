@@ -122,7 +122,7 @@ function Nav() {
         {/* buttons container */}
         <div className="flex gap-24 ">
           <button
-            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border-sky-500 dark:text- dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
+            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border-sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
             onClick={() => {
               navigateTo("/home");
             }}
@@ -130,12 +130,12 @@ function Nav() {
             Home
           </button>
           <button
-            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border-sky-500 dark:text- dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl "
+            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border-sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl "
             onClick={switchProducts}
           >
             Services
           </button>
-          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
+          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
             Contact Us
           </button>
         </div>
