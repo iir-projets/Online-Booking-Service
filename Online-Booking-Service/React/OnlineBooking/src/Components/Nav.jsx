@@ -13,8 +13,7 @@ function Nav() {
   const SessionAnimation = useRef(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-
-  const toggleDarkMode = () => {
+  /*co= () => {
     const newMode = !isDarkMode; // Calculate the new mode before updating state
     setIsDarkMode(newMode); // Update the state
     // Update dark mode styles on the document based on the new mode
@@ -23,13 +22,11 @@ function Nav() {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  };
-
-
+  };*/
 
     const setLightMode = () => {
     document. querySelector("body") . setAttribute('data-theme', 'light')
-    console.log("set in light mode")
+    //console.log("set in light mode")
     }
     setLightMode()
 
@@ -122,7 +119,7 @@ function Nav() {
         {/* buttons container */}
         <div className="flex gap-24 ">
           <button
-            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border-sky-500 dark:text- dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
+            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border-sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
             onClick={() => {
               navigateTo("/home");
             }}
@@ -130,18 +127,18 @@ function Nav() {
             Home
           </button>
           <button
-            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border-sky-500 dark:text- dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl "
+            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border-sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl "
             onClick={switchProducts}
           >
             Services
           </button>
-          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
+          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
             Contact Us
           </button>
         </div>
         {/*   Dark/Light Mode Toogle    */}
         <div className="flex justify-center items-center">
-          <Switch onChange={toggleDarkMode} checked={isDarkMode}  /> 
+          <Switch onChan checked={isDarkMode}  /> 
         </div>
         {/*     Logout button     */}
         <button
