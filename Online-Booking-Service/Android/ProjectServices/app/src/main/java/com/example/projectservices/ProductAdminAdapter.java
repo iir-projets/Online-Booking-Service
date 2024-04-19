@@ -65,7 +65,7 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
 
         holder.btnDelete.setOnClickListener(view -> {
 
-            ((ProductAdminActivity) context).deleteProduct(product); });
+            showDeleteConfirmationDialog(product); });
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +46,12 @@ public class ProductAdminActivity extends AppCompatActivity {
 
         adapter = new ProductAdminAdapter(this, productList, token);
         recyclerView.setAdapter(adapter);
+
+        Button historyButton = findViewById(R.id.addProductButton);
+        historyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductAdminActivity.this, FormulairActivity.class);
+            startActivity(intent);
+        });
 
         fetchProductsFromApi();
     }
@@ -90,7 +96,7 @@ public class ProductAdminActivity extends AppCompatActivity {
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
 
-                    Product product = new Product(id, name, description, category, availability, location, price);
+                    Product product = new Product(name, description, category, availability, location, price);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
@@ -103,20 +109,16 @@ public class ProductAdminActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteProduct(Product product) {
-        // Check if product name is valid
-        if (product.getName() == null || product.getName().isEmpty()) {
-            Toast.makeText(this, "Invalid product name", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Call your API to delete the product
+    public void deleteProduct(Product product) {
+        // Call your API to add the product
         String url = "http://10.0.2.2:9085/services/delete?token=" + token;
+        Log.d("FormulairActivity","token 1111 : "+ token);
 
         JSONObject requestBody = new JSONObject();
         try {
-            requestBody.put("productName", product.getName());
-            Log.d("ProductActivity","json"+requestBody);
+            requestBody.put("name", product.getName());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,8 +127,10 @@ public class ProductAdminActivity extends AppCompatActivity {
                 response -> {
                     // Handle successful deletion
                     Toast.makeText(this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+
                     // Refresh the product list after deletion
                     fetchProductsFromApi();
+
                 },
                 error -> {
                     // Handle error
@@ -136,6 +140,7 @@ public class ProductAdminActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
+
 
     private void handleError(VolleyError error) {
         Toast.makeText(this, "Failed to retrieve data: " + error.toString(), Toast.LENGTH_LONG).show();
