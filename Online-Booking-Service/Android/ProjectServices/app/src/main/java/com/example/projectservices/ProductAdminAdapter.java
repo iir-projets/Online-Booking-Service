@@ -3,6 +3,7 @@ package com.example.projectservices;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,14 +59,14 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         });
 
         holder.btnEdit.setOnClickListener(view -> {
-            // Perform action when edit button is clicked
-            // You can open an activity for editing product details or perform any other action
-            // Example: ((AdminProductActivity) context).editProduct(product);
+
+            showModificationConfirmationDialog(product);
         });
 
         holder.btnDelete.setOnClickListener(view -> {
 
             showDeleteConfirmationDialog(product); });
+
     }
 
     @Override
@@ -101,6 +102,29 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    private void showModificationConfirmationDialog(Product product) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirmation");
+        builder.setMessage("Are you sure you want to edit this product?");
+        builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+            // Démarrer une nouvelle intention pour l'activité de modification du formulaire
+            Intent intent = new Intent(context, ModifFormulairActivity.class);
+            // Passer les données du produit à l'activité de modification du formulaire
+            intent.putExtra("productName", product.getName());
+            intent.putExtra("productDescription", product.getDescription());
+            intent.putExtra("productCategory", product.getCategory());
+            intent.putExtra("productAvailability", product.getAvailability());
+            intent.putExtra("productPrice", product.getPrice());
+            intent.putExtra("productLocation", product.getLocation());
+            context.startActivity(intent);
+
+        });
+        builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 
 
     private void showProductDetails(Product product) {
