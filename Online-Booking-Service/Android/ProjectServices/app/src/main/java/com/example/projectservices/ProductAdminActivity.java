@@ -37,6 +37,7 @@ public class ProductAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_admin);
 
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         productList = new ArrayList<>();
@@ -47,11 +48,13 @@ public class ProductAdminActivity extends AppCompatActivity {
         adapter = new ProductAdminAdapter(this, productList, token);
         recyclerView.setAdapter(adapter);
 
-        Button historyButton = findViewById(R.id.addProductButton);
-        historyButton.setOnClickListener(v -> {
+        Button addButton = findViewById(R.id.addProductButton);
+        addButton.setOnClickListener(v -> {
             Intent intent = new Intent(ProductAdminActivity.this, FormulairActivity.class);
             startActivity(intent);
         });
+
+
 
         fetchProductsFromApi();
     }
@@ -140,6 +143,7 @@ public class ProductAdminActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
+
 
 
     private void handleError(VolleyError error) {

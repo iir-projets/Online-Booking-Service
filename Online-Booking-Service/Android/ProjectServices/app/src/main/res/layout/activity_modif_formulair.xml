@@ -9,8 +9,8 @@
         android:id="@+id/textView5"
         android:layout_width="393dp"
         android:layout_height="75dp"
-        android:text="Formulaire d'ajout"
-        android:textSize="34sp" />
+        android:text="Formulaire de modification"
+        android:textSize="30sp" />
 
     <EditText
         android:id="@+id/editTextProductName"
@@ -53,6 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
-        android:text="Add Product" />
+        android:text="modifier Product" />
 
 </LinearLayout>
