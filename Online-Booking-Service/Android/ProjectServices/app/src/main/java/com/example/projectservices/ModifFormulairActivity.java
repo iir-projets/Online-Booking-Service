@@ -33,6 +33,12 @@ public class ModifFormulairActivity extends AppCompatActivity {
         // Ajouter un écouteur de clic au bouton "modifier Product"
         Button buttonEditProduct = findViewById(R.id.buttoneditProduct);
         buttonEditProduct.setOnClickListener(view -> editProduct());
+        
+        Button addButton = findViewById(R.id.buttonCancel);
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ModifFormulairActivity.this, ProductAdminActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void displayProductData() {

@@ -46,6 +46,11 @@ public class FormulairActivity extends AppCompatActivity {
 
         // Set click listener for add product button
         buttonAddProduct.setOnClickListener(v -> addProduct());
+        Button addButton = findViewById(R.id.buttonCancel);
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(FormulairActivity.this, ProductAdminActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void addProduct() {
