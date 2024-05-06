@@ -10,12 +10,25 @@ import Admin from './Admin.jsx';
 import Loading from './Components/Loading.jsx';
 import Succes from './Components/Succes.jsx';
 import SessionExpired from './Components/SessionExpired.jsx';
+import PDFTesting from './Components/PDFTesting.jsx';
+import History from './Components/History.jsx';
+
 
 const router = createBrowserRouter([
   {
     //default to try new features
     path:'/',
     element: <Login/>
+  },
+  {
+    //default to try new features
+    path:'/history',
+    element: <History/>
+  },
+  {
+    //default to try new features
+    path:'/pdf',
+    element: <PDFTesting/>
   },
   {
     //default to try new features

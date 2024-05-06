@@ -31,6 +31,11 @@
             <version>0.11.2</version>
         </dependency>
         <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.1.16</version>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>0.11.2</version>
@@ -42,6 +47,7 @@
             <version>0.11.2</version>
             <scope>runtime</scope>
         </dependency>
+
 
         <dependency>
             <groupId>com.mysql</groupId>

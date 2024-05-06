@@ -27,20 +27,18 @@ function Admin() {
     try {
       // Get the token from localStorage
       const token = localStorage.getItem("token");
-      console.log(token);
+      console.log("my token", token);
       // Check if token exists
       if (!token) {
         throw new Error("Token not found in localStorage");
       }
 
-      const response = await fetch("http://localhost:9085/services", {
+      const response = await fetch(`http://localhost:9085/services?token=${token}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Include the token in the Authorization header
-          Authorization: `Bearer ${token}`,
+
         },
-        body: token,
       });
 
       if (!response.ok) {
@@ -163,7 +161,7 @@ function Admin() {
           <IoAddCircleOutline className="mt-0.5" />
         </button>
       </div>
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex justify-center h-screen">
         <div className=" w-4/6 relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

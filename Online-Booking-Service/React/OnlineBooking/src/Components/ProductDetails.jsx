@@ -116,7 +116,7 @@ function ProductDetails(props) {
         <div className="w-2/6 ml-96">{/*<LoginSucces /> */}</div>
       </div>
       <div className={classes.container}>
-        <div className="flex w-full bg-white h-full">
+        <div className="flex w-full bg-white h-full dark:bg-slate-800">
           <img
             src={image}
             className="w-1/3 h-1/2 mt-8 ml-8 shadow-sm ring-1"
