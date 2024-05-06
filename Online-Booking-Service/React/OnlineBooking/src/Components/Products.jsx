@@ -158,7 +158,7 @@ function Products() {
             <ProductDetails service={details} onCancel={() => switchVisibility(false)} />
           </Modal>
         )}
-        <div className="flex-col ml-10 ">
+        <div className="flex-col ml-10 h-screen">
           <label htmlFor="" className="font-bold font-mono">
             Search :
           </label>
@@ -194,7 +194,7 @@ function Products() {
             >
               Price Range :
             </label>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-between gap-5 items-center">
               <input
                 id="price-range"
                 type="range"
@@ -209,7 +209,7 @@ function Products() {
           </div>
         </div>
         {/* Product Container   */}
-        <div className=" mr-10 ml-auto p-5 border-2 w-3/5 flex flex-wrap gap-10">
+        <div className=" mr-10 ml-auto p-6 border-2 w-3/5 flex flex-wrap gap-10 rounded-3xl">
           {services.map((services) => (
             <Container
               key={services.id}

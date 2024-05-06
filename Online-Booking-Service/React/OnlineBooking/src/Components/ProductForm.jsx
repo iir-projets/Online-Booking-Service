@@ -205,11 +205,11 @@ function ProductForm(props) {
   }
   //debugging 
   console.log( "props debugg" , props)
-
+/* className={`${classes.container} flex justify-center items-center bg-slate-700 dark:bg-slate-700 `} */
   return (
     <>
-      <div className={`${classes.container} flex justify-center items-center`}>
-        <div className="p-8 grid grid-cols-2 gap-5 justify-center">
+      <div>
+        <div className="p-8 grid grid-cols-2 gap-5 justify-center ">
           {/* Div container for each label and input */}
           {/* Product Name */}
           <div className="flex justify-between">
@@ -282,7 +282,7 @@ function ProductForm(props) {
           ></textarea>
           <p></p>
           <div className="flex justify-center">
-            <button className="border-2 p-4 w-1/2 font-thin font-serif text-xl bg-red-400 rounded-2xl text-white justify-center hover:bg-white hover:text-red-400 duration-700 hover:border-red-400 shadow-2xl hover:translate-y-6 flex gap-2" 
+            <button className="border-2 p-4 w-1/2 font-thin font-serif text-xl bg-red-400 rounded-2xl text-white justify-center hover:bg-white hover:text-red-400 duration-700 dark:bg-purple-500 dark:hover:text-purple-500 dark:hover:border-purple-500 hover:border-red-400 shadow-2xl hover:w-7/12 hover:text-2xl flex gap-2" 
             onClick={handleSubmit}>
               Submit
             </button>

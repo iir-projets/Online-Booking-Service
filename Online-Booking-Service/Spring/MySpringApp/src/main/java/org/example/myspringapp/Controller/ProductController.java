@@ -33,6 +33,7 @@ public class ProductController {
     UserRepository userRepository;
     @PostMapping("/services")
     public Map<String,Object> getAllProducts(@RequestParam String token){
+        System.out.println("tested successfully");
         Map<String ,Object> response = productServices.sortByPriceDESC(token);
         System.out.println(response);
         return response;
