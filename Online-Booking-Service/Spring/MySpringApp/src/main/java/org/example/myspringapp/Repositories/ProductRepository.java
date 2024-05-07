@@ -11,12 +11,16 @@ public interface ProductRepository  extends JpaRepository<Product,Integer> {
     List<Product> findProductByAvailability(String availability);
 
     List<Product> findByCategory(String category);
+    List<Product> findByCategory(String category,Pageable pageable);
+    List<Product> getAllByCategory(String category,Pageable pageable);
 
     Product findByName(String name);
 
     Page<Product> getAllBy(Pageable pageable);
     Page<Product> findAllBy(Pageable pageable);
     List<Product> findByPriceLessThan(Integer price);
+    List<Product> findByPriceLessThan(Integer price,Pageable pageable);
+    List<Product> getAllByPriceLessThan(Integer price,Pageable pageable);
 
     // Sort products by price in ascending order
     List<Product> findAllByOrderByPriceAsc();

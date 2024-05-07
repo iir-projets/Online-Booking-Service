@@ -108,20 +108,28 @@ public class ProductServices {
 
     }
 
-    public Map<String,Object> filterByCategory(String category , String token){
+    public Map<String,Object> filterByCategory(String category , String token,int page){
         Map<String,Object> response = new HashMap<>();
 
         if (jwtUtils.isTokenExpired(token)){
             response.put("response",501);
             return response;
         }
-        List<Product> productList = productRepository.findByCategory(category);
+        Integer LastPage = ((productRepository.findByCategory(category).size())/3)+1;
+        System.out.println("Last Page\t"+ LastPage);
+        System.out.println("Current Page\t"+ page);
+        System.out.println("Bool " + LastPage.equals(page));
+        Pageable pageable = PageRequest.of(page-1,3);
+        //response.put("response",productRepository.findAll(pageable).getContent());
+        List<Product> productList = productRepository.findByCategory(category,pageable);
         if (productList == null){
             response.put("response" , 404);
             return response;
         }
         response.put("response",200);
         response.put("data",productList);
+        response.put("isLast",LastPage.equals(page));
+        response.put("isFirst",page==1);
 
         return response;
     }
@@ -162,21 +170,25 @@ public class ProductServices {
         return response;
     }
 
-    public Map<String,Object> FilterByPrice(String token,Integer price){
+    public Map<String,Object> FilterByPrice(String token,Integer price,int page){
         Map<String,Object> response = new HashMap<>();
 
         if (jwtUtils.isTokenExpired(token)){
             response.put("response",501);
             return response;
         }
-        List<Product> productList = productRepository.findByPriceLessThan(price);
+        Pageable pageable = PageRequest.of(page-1,3);
+        //response.put("response",productRepository.findAll(pageable).getContent());
+        Integer LastPage = (productRepository.findByPriceLessThan(price).size())/3;
+        List<Product> productList = productRepository.getAllByPriceLessThan(price,pageable);
         if (productList == null){
             response.put("response" , 404);
             return response;
         }
         response.put("response",200);
         response.put("data",productList);
-
+        response.put("isLast",page==LastPage);
+        response.put("isFirst",page==1);
         return response;
     }
 
@@ -186,8 +198,11 @@ public class ProductServices {
             response.put("response",501);
             return response;
         }
+        Integer LastPage = (productRepository.findAll().size())/3;
         Pageable pageable = PageRequest.of(page-1,3);
         response.put("response",productRepository.findAll(pageable).getContent());
+        response.put("isLast",page==LastPage);
+        response.put("isFirst",page==1);
         return response;
     }
 }

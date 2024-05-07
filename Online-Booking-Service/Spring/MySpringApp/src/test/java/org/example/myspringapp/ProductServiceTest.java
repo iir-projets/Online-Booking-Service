@@ -76,7 +76,8 @@ public class ProductServiceTest {
         when(jwtUtils.isTokenExpired(anyString())).thenReturn(false);
 
         // Act
-        Map<String, Object> response = productService.filterByCategory(category, "valid_token");
+        Map<String, Object> response = productService.filterByCategory(category,"valid_token",1);
+
 
         // Assert
         assertEquals(200, response.get("response"));

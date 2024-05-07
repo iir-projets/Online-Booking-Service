@@ -1,9 +1,12 @@
 package org.example.myspringapp.Service;
 
+import com.sun.tools.jconsole.JConsoleContext;
+import org.example.myspringapp.DTO.UserDTO;
 import org.example.myspringapp.Model.Reservation;
 import org.example.myspringapp.Model.User;
 import org.example.myspringapp.Repositories.ReservationRepository;
 import org.example.myspringapp.Repositories.UserRepository;
+import org.example.myspringapp.Repositories.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
+    UserRoleRepository userRoleRepository;
+    @Autowired
     JWTUtils jwtUtils;
     @Autowired
     ReservationRepository reservationRepository;
@@ -27,21 +32,58 @@ public class UserService {
         500 => duplicated username
         501 => token not valid
         503 => invalid credentials
+        504 => Email not Unique
+        505 => Phone not Unique
 
      */
 
-    public Map<String , String> addUser(User user ){
-        Map<String,String > response = new HashMap<>();
+    public Map<String , Object> Registration(UserDTO user ){
+        Map<String,Object > response = new HashMap<>();
         // check if the username is unique
-        Boolean isUsernameUnique = ( userRepository.findByUserName(user.getUserName()) == null );
-        if( isUsernameUnique  ){
-            userRepository.save(user);
-            response.put("response","200");
-            userRepository.save(user);
-            response.put("token", jwtUtils.generateToken(user));
-        }else
-            response.put("response","500");
-
+        boolean isUsernameUnique = ( userRepository.findByUserName(user.getUserName()) == null );
+        boolean isMailUnique = (userRepository.findByEmail(user.getEmail()) == null);
+        boolean isPhoneUnique = (userRepository.findByPhone(user.getPhone()) == null);
+        boolean isCBUnique = (userRepository.findByCarteBancaire(user.getCarteBancaire()) == null);
+        System.out.println("isUsernameUnique \t" + isUsernameUnique );
+        System.out.println("isMailUnique \t" + isMailUnique );
+        System.out.println("isPhoneUnique \t" + isPhoneUnique );
+        System.out.println("isCBUnique \t" + isCBUnique );
+        if(!isPhoneUnique || !isMailUnique || !isUsernameUnique || !isCBUnique){
+            response.put("isMailUnique",true);
+            response.put("isPhoneUnique",true);
+            response.put("isUserNameUnique",true);
+            response.put("isCBUnique",true);
+            if(!isMailUnique){
+                response.put("isMailUnique",false);
+            }
+            if (!isPhoneUnique){
+                response.put("isPhoneUnique",false);
+            }
+            if (!isUsernameUnique){
+                response.put("isUserNameUnique",false);
+            }
+            if(!isCBUnique){
+                response.put("isCBUnique",false);
+            }
+            System.out.println("blocked here ");
+            response.put("response",503);
+            return response;
+        }
+        User NewUser = User.builder()
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .phone(user.getPhone())
+                .carteBancaire(user.getCarteBancaire())
+                .userRole(userRoleRepository.findById(2L).get())
+                .build();
+        System.out.println(NewUser);
+        userRepository.save(NewUser);
+        response.put("response","200");
+        String GenratedToken = jwtUtils.generateToken(NewUser);
+        response.put("token", GenratedToken);
+        System.out.println("GenratedToken"+GenratedToken);
+        System.out.println(response);
         return  response;
     }
 

@@ -23,6 +23,7 @@ function Container(props) {
         [5, OnlineShopping],
         [6, TaxiDriver],
         [7, receptionist],
+        [9, TaxiDriver],
       ]),
     []
   );

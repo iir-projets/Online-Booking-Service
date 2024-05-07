@@ -1,5 +1,6 @@
 package org.example.myspringapp.Controller;
 
+import org.example.myspringapp.DTO.UserDTO;
 import org.example.myspringapp.Model.User;
 import org.example.myspringapp.Service.JWTUtils;
 import org.example.myspringapp.Service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -20,28 +22,8 @@ public class UserController {
     JWTUtils jwtUtils;
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, String>> addUser(@RequestBody User user) {
-        Map<String, String> response = userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @PutMapping("/edit")
-    public ResponseEntity<Map<String, String>> editUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
-        Map<String, String> response = userService.editUser(user, token);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Map<String, String>> deleteUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
-        Map<String, String> response = userService.deleteUser(user, token);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<Map<String, Object>> getAllUsers(@RequestHeader("Authorization") String token) {
-        User  user = new User();
-        Map<String, Object> response = userService.getAllusers(  user , token);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    public Map<String, Object> Registration(@RequestBody UserDTO user) {
+        return userService.Registration(user);
     }
 
     @GetMapping("/history")

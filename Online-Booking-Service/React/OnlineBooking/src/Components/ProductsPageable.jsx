@@ -4,7 +4,7 @@ import { useState } from "react";
 import Footer from "./Footer";
 import Modal from "./Modal";
 import ProductDetails from "./ProductDetails";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function ProductsPageable() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,21 +13,54 @@ function ProductsPageable() {
   const [services, setServices] = useState([]);
   const [details, setDetails] = useState();
   const [price, setPrice] = useState(0);
-  const [Page  , setPage] = useState(1)
+  const [Page, setPage] = useState(1);
+  const [Operation, setOperation] = useState("");
+  const [isLast, setIsLast] = useState();
+  const [isFirst, setIsFirst] = useState();
+
+  //Ref States
+  const prevButtonRef = useRef(null);
+  const nextButtonRef = useRef(null);
+
   const options = ["Category 1", "Category 2", "Category 3"];
 
-  // Handle Pagination 
-  useEffect(()=>{
-    console.log(Page)
-    fetchDataFromApi()
-    
-  },[Page])
+  // Handle Pagination
+  useEffect(() => {
+    console.log(Operation);
+    switch (Operation) {
+      case "Price":
+        FilterByPrice(price);
+        break;
+      case "Category":
+        FilterCategory(selectedOption);
+        break;
+      default:
+        fetchDataFromApi();
+        break;
+    }
+  }, [Page, Operation]);
+
+  const Handle_Pagination_Navigation = () => {
+    console.log("Page" + Page + "\nIsLast " + isLast + "\nisFirst " + isFirst)
+    // Disable Next button and enable Previous button
+    if (nextButtonRef.current && isLast) {
+      nextButtonRef.current.disabled = true;
+    } else if (nextButtonRef.current && !isLast) {
+      nextButtonRef.current.disabled = false;
+    }
+    if (prevButtonRef.current && isFirst) {
+      prevButtonRef.current.disabled = false;
+    } else if (prevButtonRef.current && !isFirst) {
+      prevButtonRef.current.disabled = false;
+    }
+  };
 
   useEffect(() => {
     console.log(details); // This will log the updated state value
   }, [details]); // useEffect will run whenever details state changes
 
   const handlePriceChange = (event) => {
+    setOperation("Price");
     const newPrice = parseInt(event.target.value, 10); // Parse the value as an integer
     setPrice(newPrice); // Set the new price value
     FilterByPrice(newPrice);
@@ -38,6 +71,7 @@ function ProductsPageable() {
   };
 
   const handleOptionSelect = (option) => {
+    setOperation("Category");
     setSelectedOption(option);
     setIsOpen(false);
     FilterCategory(option);
@@ -82,8 +116,10 @@ function ProductsPageable() {
 
       const ApiResponse = await response.json();
       setServices(ApiResponse.data.response);
-
+      setIsLast(ApiResponse.data.isLast);
+      setIsFirst(ApiResponse.data.isFirst);
       console.log("Data from API:", ApiResponse);
+      Handle_Pagination_Navigation();
       return ApiResponse;
     } catch (error) {
       console.error("There was a problem fetching data from the API:", error);
@@ -91,6 +127,7 @@ function ProductsPageable() {
     }
   };
   const FilterCategory = async (option) => {
+    setPage(1);
     if (selectedOption === "") {
       console.log("Default option");
     }
@@ -98,6 +135,7 @@ function ProductsPageable() {
       const queryParams = new URLSearchParams({
         token: localStorage.getItem("token"),
         category: option,
+        page: Page,
       });
 
       const url = `http://localhost:9085/services/category?${queryParams}`;
@@ -115,6 +153,10 @@ function ProductsPageable() {
 
       const ApiResponse = await response.json();
       setServices(ApiResponse.data);
+      setIsLast(ApiResponse.data.isLast);
+      setIsFirst(ApiResponse.data.isFirst);
+      console.log("Data from API:", ApiResponse);
+      Handle_Pagination_Navigation();
 
       console.log("Data from API:", ApiResponse);
       return ApiResponse;
@@ -124,6 +166,7 @@ function ProductsPageable() {
     }
   };
   const FilterByPrice = async (maxprice) => {
+    setPage(1);
     if (selectedOption === "") {
       console.log("Default option");
     }
@@ -131,6 +174,7 @@ function ProductsPageable() {
       const queryParams = new URLSearchParams({
         token: localStorage.getItem("token"),
         price: maxprice,
+        page: Page,
       });
 
       const url = `http://localhost:9085/services/price?${queryParams}`;
@@ -148,6 +192,10 @@ function ProductsPageable() {
 
       const ApiResponse = await response.json();
       setServices(ApiResponse.data);
+      setIsLast(ApiResponse.data.isLast);
+      setIsFirst(ApiResponse.data.isFirst);
+      console.log("Data from API:", ApiResponse);
+      Handle_Pagination_Navigation();
 
       console.log("Data from API:", ApiResponse);
       return ApiResponse;
@@ -160,6 +208,7 @@ function ProductsPageable() {
   return (
     <>
       <Nav />
+      {/*   Show Products    */}
       <div className="flex mt-24 ">
         {visibility && (
           <Modal onClose={() => switchVisibility(false)}>
@@ -169,13 +218,16 @@ function ProductsPageable() {
             />
           </Modal>
         )}
-        <div className="flex-col ml-10">
-          <label htmlFor="" className="font-bold font-mono">
-            Search :
-          </label>
-          <br />
-          <input type="text" className="border-2  rounded-xl" />
-          {/* Filter DropDown */}
+        <div className="flex-col ml-10 w-56 flex ">
+          <button
+            className="border-2 rounded-2xl p-3 hover:bg-slate-300 hover:text-slate-800 duration-1000 hover:font-bold"
+            onClick={() => {
+              setOperation("default");
+            }}
+          >
+            Reset
+          </button>
+          {/* Filter Category DropDown */}
           <div className="dropdown border-2 mt-5 p-2 text-center  rounded-2xl ">
             <div
               className="dropdown-toggle mb-3 font-mono font-bold"
@@ -240,12 +292,12 @@ function ProductsPageable() {
           <button
             href="#"
             className="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={() =>{
-                if(Page != 1){
-                    setPage(prevPage => prevPage - 1 );
-                }
-                
-        }}
+            onClick={() => {
+              if (Page != 1) {
+                setPage((prevPage) => prevPage - 1);
+              }
+            }}
+            ref={prevButtonRef}
           >
             <svg
               className="w-3.5 h-3.5 me-2 rtl:rotate-180"
@@ -268,10 +320,11 @@ function ProductsPageable() {
           {/* Next Button */}
           <button
             href="#"
-            onClick={() =>{
-                if(Page != 3){
-                    setPage(prevPage => prevPage + 1);
-                }
+            ref={nextButtonRef}
+            onClick={() => {
+              if (Page != 3) {
+                setPage((prevPage) => prevPage + 1);
+              }
             }}
             className="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
@@ -294,6 +347,7 @@ function ProductsPageable() {
           </button>
         </div>
       </div>
+      {/*       Footer      */}
       <Footer />
     </>
   );

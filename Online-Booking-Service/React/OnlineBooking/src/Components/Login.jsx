@@ -1,5 +1,6 @@
 import plant from "../assets/plant.jpg";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import LoginSucces from "./LoginSucces";
@@ -61,11 +62,13 @@ function Login() {
         const waitToTurnOff = setTimeout(() => switchOff(loginFailRef), 2000); //2s
       }
       if (data.role == "user") {
+        localStorage.setItem("role","user")
         console.log("succes");
         switchOn(loginSuccessRef);
         const waitToSwitch = setTimeout(() => navigateTo("/home"), 3500); //3.5s
       }
       if (data.role == "admin") {
+        localStorage.setItem("role","admin")
         console.log("succes");
         switchOn(loginSuccessRef);
         const waitToSwitch = setTimeout(() => navigateTo("/Admin"), 3500); //3.5s
@@ -152,6 +155,12 @@ function Login() {
               >
                 Submit
               </button>
+              <p className="font-serif text-xl mt-5 text-white">
+                you want to create account ?{" "}
+                <span className="text-blue-400 hover:text-pink-400 animate-pulse hover:transition duration-1000">
+                  <Link to="/createaccount">Sign in </Link>
+                </span>
+              </p>
             </form>
           </div>
           <img src={plant} className="" alt="" />
