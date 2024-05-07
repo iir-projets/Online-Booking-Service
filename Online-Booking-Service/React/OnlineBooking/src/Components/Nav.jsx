@@ -99,7 +99,7 @@ function Nav() {
   const switchtoContact = () => {
     navigateTo("/history")
     // Log "Contact us" to console
-    console.log("Contact us");
+    console.log("");
   };
   return (
     <>
@@ -132,8 +132,9 @@ function Nav() {
           >
             Services
           </button>
-          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
-            Contact Us
+          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
+          onClick={switchtoContact}>
+            Booking History
           </button>
         </div>
         {/*   Dark/Light Mode Toogle    */}

@@ -7,6 +7,8 @@ import org.example.myspringapp.Repositories.UserRepository;
 import org.example.myspringapp.Repositories.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -175,6 +177,17 @@ public class ProductServices {
         response.put("response",200);
         response.put("data",productList);
 
+        return response;
+    }
+
+    public Map<String,Object> getPageableProducts(int page,String token){
+        Map<String,Object> response = new HashMap<>();
+        if (jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+        Pageable pageable = PageRequest.of(page-1,3);
+        response.put("response",productRepository.findAll(pageable).getContent());
         return response;
     }
 }

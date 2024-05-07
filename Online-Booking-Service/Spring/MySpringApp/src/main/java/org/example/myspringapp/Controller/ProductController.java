@@ -92,4 +92,11 @@ public class ProductController {
         //Tested in Postman Successfully ✅
         return response;
     }
+
+    @PostMapping("/service/page")
+    public  Map<String,Object> getPagableProducts(@RequestParam int page,@RequestParam String token ){
+        Map<String,Object> response = new HashMap<>();
+        response.put("data",productServices.getPageableProducts(page,token));
+        return  response;
+    }
 }
