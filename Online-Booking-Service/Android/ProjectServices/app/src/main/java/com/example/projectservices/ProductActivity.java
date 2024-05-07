@@ -49,6 +49,11 @@ public class ProductActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductActivity.this, HistoryActivity.class);
             startActivity(intent);
         });
+        Button logoutButton = findViewById(R.id.btnlout);
+        logoutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
         fetchProductsFromApi();
     }
