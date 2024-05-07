@@ -1,6 +1,7 @@
 package org.example.myspringapp;
 
 
+import org.example.myspringapp.DTO.UserDTO;
 import org.example.myspringapp.Model.Product;
 import org.example.myspringapp.Model.User;
 
@@ -48,7 +49,7 @@ public class MySpringAppApplication implements CommandLineRunner {
                 # 2nd layer of manual Testing
         */
         //System.out.println(userRepository.findAll());
-        UserRole userRole = userRoleRepository.findById(1L).get();
+        UserRole userRole = userRoleRepository.findById(2L).get();
         User user = new User(null,"testing","user@email.com","123","0000","XXXXXX",userRole);
         User AlteredUser = userRepository.findById(2L).get();
         //AlteredUser.setUserName("admin");
@@ -72,8 +73,8 @@ public class MySpringAppApplication implements CommandLineRunner {
                 .price(200)
                 .build();
         //System.out.println(productServices.editProduct(product,token));
-        System.out.println(productServices.sortByPriceASC(token));
-        System.out.println(productServices.sortByPriceDESC(token));
+        //System.out.println(productServices.sortByPriceASC(token));
+        //System.out.println(productServices.sortByPriceDESC(token));
         /*
                 #Authentication Test
         Map<String,String> credentials = new HashMap<>();
@@ -85,7 +86,19 @@ public class MySpringAppApplication implements CommandLineRunner {
         //Product product1 = productRepository.findById(1).get();
         //System.out.println(reservationService.makeReservation("My First Service",token));
         //System.out.println(token);
-        System.out.println(productRepository.findByPriceLessThan(200));
+        //System.out.println(productRepository.findByPriceLessThan(200));
+
+        /*  Testing Registration    */
+        UserDTO NewUser = UserDTO.builder()
+                .userName("a4343")
+                .email("a4343@email.com")
+                .password("securePassword")
+                .phone("0000003")
+                .carteBancaire("XXXXAB")
+                .build();
+        System.out.println(NewUser);
+        //userService.Registration(NewUser);
+
 
     }
 }

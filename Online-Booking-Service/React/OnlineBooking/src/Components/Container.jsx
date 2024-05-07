@@ -23,6 +23,7 @@ function Container(props) {
         [5, OnlineShopping],
         [6, TaxiDriver],
         [7, receptionist],
+        [9, TaxiDriver],
       ]),
     []
   );
@@ -33,7 +34,9 @@ function Container(props) {
   }, [props.id, gallery]);
 
   return (
-    <div className="flex-col border-2 w-64 h- shadow-xl items-center justify-center rounded-3xl ">
+
+    <div className="flex-col border-2 w-64 shadow-xl items-center justify-center rounded-3xl ">
+
       <div className="flex justify-center">
         <img src={image} alt="" className="w-44" />
       </div>

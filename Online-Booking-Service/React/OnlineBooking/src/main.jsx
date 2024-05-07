@@ -13,6 +13,10 @@ import SessionExpired from './Components/SessionExpired.jsx';
 import PDFTesting from './Components/PDFTesting.jsx';
 import History from './Components/History.jsx';
 
+import ProductsPageable from './Components/ProductsPageable.jsx';
+import SignIn from './Components/SignIn.jsx';
+
+
 
 const router = createBrowserRouter([
   {
@@ -64,6 +68,16 @@ const router = createBrowserRouter([
     //default to try new features
     path:'/services',
     element: <Products/>
+  },
+  {
+    //default to try new features
+    path:'/pageable',
+    element: <ProductsPageable/>
+  },
+  {
+    //default to try new features
+    path:'/createaccount',
+    element: <SignIn/>
   },
   {
     //default to try new features

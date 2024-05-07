@@ -6,11 +6,12 @@ import classes from "./Nav.module.css";
 import SessionExpired from "./SessionExpired";
 import Switch from "react-switch";
 
-
 function Nav() {
   const navigateTo = useNavigate();
   const [isSessionExpired, SetisSessionExpired] = useState("");
   const SessionAnimation = useRef(false);
+  const buttonsRef = useRef(null);
+
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const SwitchTheme = () => {
@@ -18,18 +19,27 @@ function Nav() {
     setIsDarkMode(newMode); // Update the state
     // Update dark mode styles on the document based on the new mode
     if (newMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   };
 
-    const setLightMode = () => {
-    document. querySelector("body") . setAttribute('data-theme', 'light')
-    //console.log("set in light mode")
-    }
-    setLightMode()
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role === "admin") {
+      buttonsRef.current.style.display = "none";
+    } else {
+      buttonsRef.current.style.display = "flex";
 
+    }
+  }, []);
+
+  const setLightMode = () => {
+    document.querySelector("body").setAttribute("data-theme", "light");
+    //console.log("set in light mode")
+  };
+  setLightMode();
 
   const switchOn = (ref) => {
     SetisSessionExpired(true);
@@ -92,14 +102,16 @@ function Nav() {
     console.log("test");
   };
   const switchProducts = () => {
-    navigateTo("/services");
+    navigateTo("/pageable");
     // Log "test" to console
     console.log("test");
   };
   const switchtoContact = () => {
-    navigateTo("/history")
+
+    navigateTo("/history");
+
     // Log "Contact us" to console
-    console.log("Contact us");
+    console.log("");
   };
   return (
     <>
@@ -117,7 +129,7 @@ function Nav() {
       <div className="flex dark:bg-gray-900 dark:mt-0 dark:pt-6 justify-between w-full mt-4 ">
         <img src={Logo} alt="" className="ml-8 sm:w-1/4" />
         {/* buttons container */}
-        <div className="flex gap-24 ">
+        <div className="flex gap-24 " ref={buttonsRef}>
           <button
             className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border-sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
             onClick={() => {
@@ -132,14 +144,19 @@ function Nav() {
           >
             Services
           </button>
-          <button className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl">
-            Contact Us
+          <button
+            className="border-2 p-4 font-thin font-serif text-l rounded-2xl dark:hover:text-sky-500 dark:text-white  dark:hover:border dark:text--sky-500 dark:hover:bg-white dark:hover:text-2xl duration-700 shadow-xl hover:animate-bounce dark:bg-sky-500 border-sky-400 bg-white text-sky-400  hover:text-white hover:bg-sky-400 hover:border-white hover:text-2xl"
+            onClick={switchtoContact}
+          >
+            Booking History
           </button>
         </div>
         {/*   Dark/Light Mode Toogle    */}
-        <div className="flex justify-center items-center">
+
+        {/*<div className="flex justify-center items-center">
           <Switch onChange={SwitchTheme} checked={isDarkMode}  /> 
-        </div>
+          </div>*/}
+
         {/*     Logout button     */}
         <button
           className="border-2 p-4 mr-4 font-thin font-serif text-xl bg-red-400 rounded-lg text-white
