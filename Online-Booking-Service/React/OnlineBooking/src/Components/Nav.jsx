@@ -24,12 +24,14 @@ function Nav() {
       document.documentElement.classList.remove("dark");
     }
   };
+
   useEffect(() => {
     const role = localStorage.getItem("role");
     if (role === "admin") {
       buttonsRef.current.style.display = "none";
     } else {
       buttonsRef.current.style.display = "flex";
+
     }
   }, []);
 
@@ -105,7 +107,9 @@ function Nav() {
     console.log("test");
   };
   const switchtoContact = () => {
+
     navigateTo("/history");
+
     // Log "Contact us" to console
     console.log("");
   };
@@ -148,9 +152,11 @@ function Nav() {
           </button>
         </div>
         {/*   Dark/Light Mode Toogle    */}
+
         {/*<div className="flex justify-center items-center">
           <Switch onChange={SwitchTheme} checked={isDarkMode}  /> 
           </div>*/}
+
         {/*     Logout button     */}
         <button
           className="border-2 p-4 mr-4 font-thin font-serif text-xl bg-red-400 rounded-lg text-white

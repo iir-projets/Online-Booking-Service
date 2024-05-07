@@ -53,6 +53,11 @@ public class ProductAdminActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductAdminActivity.this, FormulairActivity.class);
             startActivity(intent);
         });
+        Button logoutButton = findViewById(R.id.Btnlogout);
+        logoutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductAdminActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
 
 

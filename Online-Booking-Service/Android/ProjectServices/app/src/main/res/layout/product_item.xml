@@ -7,97 +7,88 @@
     android:padding="16dp"
     tools:context=".ProductActivity">
 
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="142dp"
-        android:layout_height="236dp"
-        android:layout_marginStart="12dp"
-        android:src="@drawable/b"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/productName"
-        android:layout_width="214dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="40dp"
-        android:text="Product Name"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnReserve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/btn_bg"
-        android:text="@string/reserve"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.971"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productPrice" />
-
-    <View
-        android:id="@+id/marginDivider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="32dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnReserve" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="Category :"
-        app:layout_constraintBottom_toTopOf="@+id/productCategory"
-        app:layout_constraintEnd_toEndOf="@+id/productName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/productName"
-        app:layout_constraintTop_toBottomOf="@+id/productName"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/productCategory"
-        android:layout_width="107dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="108dp"
-        android:text="Category"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/productPrice"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/productCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Price"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/productName"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_margin="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Price :"
-        app:layout_constraintStart_toStartOf="@+id/productCategory"
-        app:layout_constraintTop_toBottomOf="@+id/productCategory" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="373dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="100dp"
+                android:layout_height="160dp"
+                android:src="@drawable/b"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="224dp"
+                android:layout_height="25dp"
+                android:text="Product Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/productImage"
+                app:layout_constraintTop_toTopOf="@id/productImage" />
+
+            <TextView
+                android:id="@+id/labelCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category :"
+                app:layout_constraintStart_toStartOf="@id/productName"
+                app:layout_constraintTop_toBottomOf="@id/productName" />
+
+            <TextView
+                android:id="@+id/productCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Category Value"
+                app:layout_constraintEnd_toEndOf="@id/productName"
+                app:layout_constraintStart_toStartOf="@id/labelCategory"
+                app:layout_constraintTop_toBottomOf="@id/labelCategory" />
+
+            <TextView
+                android:id="@+id/labelPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price :"
+                app:layout_constraintStart_toStartOf="@id/productCategory"
+                app:layout_constraintTop_toBottomOf="@id/productCategory" />
+
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                app:layout_constraintEnd_toEndOf="@id/productCategory"
+                app:layout_constraintStart_toStartOf="@id/labelPrice"
+                app:layout_constraintTop_toBottomOf="@id/labelPrice" />
+
+            <Button
+                android:id="@+id/btnReserve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_bg"
+                android:text="Reserve"
+                app:layout_constraintEnd_toEndOf="@id/productPrice"
+                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintStart_toStartOf="@id/productPrice"
+                app:layout_constraintTop_toBottomOf="@id/productPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

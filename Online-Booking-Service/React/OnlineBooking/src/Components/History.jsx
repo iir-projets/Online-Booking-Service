@@ -38,6 +38,7 @@ function History() {
     setDataHistory(newDataHistory);
   }, [Data]);
 
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -59,6 +60,7 @@ function History() {
     <>
       <Nav />
       <div className="p-4 flex justify-center items-center overflow-x-auto h-screen">
+
         <table className="w-1/2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -93,6 +95,7 @@ function History() {
                 </td>
                 <td className="px-6 py-4">{product.product.price}</td>
                 <td className="px-6 py-4">{formatDate(product.reservationDate)}</td>
+
               </tr>
             ))}
           </tbody>
