@@ -29,14 +29,7 @@ public class ReservationController {
     @Autowired
     PDFService pdfService;
 
-    @PostMapping("/reservation")
-    public Map<String, Object> makeReservation(@RequestBody ReservationRequestDTO requestDTO) {
-        //DTO stands for Data Transfer Object
-        System.out.println("for testing" + requestDTO);
-        Map<String, Object> response = reservationService.makeReservation(requestDTO.getProductName(), requestDTO.getToken());
-        System.out.println(response);
-        return response;
-    }
+
 
     /*@PostMapping("/reservation/PDF")
     public Map<String, Object> generatePDF(@RequestBody PDFContentDTO requestDTO) throws IOException {
@@ -47,7 +40,35 @@ public class ReservationController {
         System.out.println(response);
         return response;
     }*/
+    @PostMapping("/reservation")
+    public Map<String, Object> makeReservation(@RequestBody ReservationRequestDTO requestDTO) {
+        //DTO stands for Data Transfer Object
+        System.out.println("for testing" + requestDTO);
+        Map<String, Object> response = reservationService.makeReservation(requestDTO.getProductName(), requestDTO.getToken());
+        System.out.println(response);
+        return response;
+    }
+
     @PostMapping("/reservation/PDF")
+    public ResponseEntity<byte[]> MakeReservationPdf(@RequestBody ReservationRequestDTO requestDTO) {
+        System.out.println("i am here");
+        reservationService.makeReservation(requestDTO.getProductName(), requestDTO.getToken());
+        try {
+            byte[] pdfBytes = pdfService.generatePdf(requestDTO.getProductName(), requestDTO.getPrice());
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "generated_pdf.pdf");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    @PostMapping()
     public ResponseEntity<byte[]> generatePDF(@RequestBody PDFContentDTO requestDTO) {
         try {
             byte[] pdfBytes = pdfService.generatePdf(requestDTO.getServiceName(), requestDTO.getServicePrice());

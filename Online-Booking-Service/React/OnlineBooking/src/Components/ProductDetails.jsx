@@ -69,10 +69,11 @@ function ProductDetails(props) {
     console.log(token);
     const requestBody = {
       productName: data.name,
+      price:data.price,
       token: token,
     };
 
-    fetch("http://localhost:9085/reservation", {
+    fetch("http://localhost:9085/reservation/PDF", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +98,7 @@ function ProductDetails(props) {
       });
   }
 
-  console.log("props ====> " + image + data.id);
+  console.log(data);
   console.log(localStorage.getItem("token"));
  
 
@@ -130,6 +131,7 @@ function ProductDetails(props) {
             <h1 className=" p-4">Rating : ⭐⭐⭐⭐⭐</h1>
             <h1 className=" p-4">Location : {data.location}</h1>
             <h1 className=" p-4">Category : {data.category}</h1>
+            <h1 className=" p-4">Price : {data.price}</h1>
             <h1 className=" p-4">Description : {data.description}</h1>
             <button
               onClick={makeReservation}
