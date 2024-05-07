@@ -18,4 +18,5 @@
     <string name="formulaire">Formulaire</string>
     <string name="return_to_products">Return to Products</string>
     <string name="reserve">Reserve</string>
+    <string name="logout">Logout</string>
 </resources>
