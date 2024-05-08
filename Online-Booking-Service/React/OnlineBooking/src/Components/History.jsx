@@ -43,23 +43,22 @@ function History() {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Months are zero-based, so add 1
     const year = date.getFullYear();
-  
+
     // Pad single-digit day and month with leading zeros if needed
-    const formattedDay = String(day).padStart(2, '0');
-    const formattedMonth = String(month).padStart(2, '0');
-  
+    const formattedDay = String(day).padStart(2, "0");
+    const formattedMonth = String(month).padStart(2, "0");
+
     // Format the date as DD/MM/YYYY
     const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
-    
+
     return formattedDate;
   }
-  
 
   return (
     <>
       <Nav />
-      <div className="p-4 flex justify-center items-center overflow-x-auto h-screen">
-        <table className="w-1/2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <div className="p-4 flex h-screen justify-center items-center overflow-y-auto ">
+        <table className="w-1/2 h-1/2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -92,7 +91,9 @@ function History() {
                   {product.product.name}
                 </td>
                 <td className="px-6 py-4">{product.product.price}</td>
-                <td className="px-6 py-4">{formatDate(product.reservationDate)}</td>
+                <td className="px-6 py-4">
+                  {formatDate(product.reservationDate)}
+                </td>
               </tr>
             ))}
           </tbody>
