@@ -2,7 +2,6 @@ package com.example.projectservices;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -36,11 +36,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-       // holder.productDescription.setText(product.getDescription());
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
-        //holder.productAvailability.setText(product.getAvailability());
         holder.productCategory.setText(product.getCategory());
-        //holder.productLocation.setText(product.getLocation());
+
+        // Load product image using Glide
+        Glide.with(context)
+                .load(product.getImageUrl())
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.productImage);
 
         // Set a click listener for the image view to show product details
         holder.productImage.setOnClickListener(view -> {
@@ -61,18 +64,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView productName, productDescription, productPrice, productAvailability, productCategory, productLocation;
+        public TextView productName, productPrice, productCategory;
         public Button btnReserve;
         public ImageView productImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.productName);
-            //productDescription = itemView.findViewById(R.id.productDescription);
             productPrice = itemView.findViewById(R.id.productPrice);
-            //productAvailability = itemView.findViewById(R.id.productAvailability);
             productCategory = itemView.findViewById(R.id.productCategory);
-            //productLocation = itemView.findViewById(R.id.productLocation);
             btnReserve = itemView.findViewById(R.id.btnReserve);
             productImage = itemView.findViewById(R.id.productImage);
         }

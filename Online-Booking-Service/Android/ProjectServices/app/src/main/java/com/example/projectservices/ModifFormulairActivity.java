@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 public class ModifFormulairActivity extends AppCompatActivity {
     private String token;
+    private EditText editTextProductName, editTextDescription, editTextCategory, editTextAvailability, editTextPrice, editTextLocation, editTextImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,28 +29,27 @@ public class ModifFormulairActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modif_formulair);
         token = getToken();
 
+        // Initialiser les champs de texte
+        editTextProductName = findViewById(R.id.editTextProductName);
+        editTextDescription = findViewById(R.id.editTextDescription);
+        editTextCategory = findViewById(R.id.editTextCategory);
+        editTextAvailability = findViewById(R.id.editTextAvailability);
+        editTextPrice = findViewById(R.id.editTextPrice);
+        editTextLocation = findViewById(R.id.editTextLocation);
+        editTextImageUrl = findViewById(R.id.editTextImageUrl);
+
         // Récupérer les données du produit et afficher dans les champs de formulaire
         displayProductData();
 
-        // Ajouter un écouteur de clic au bouton "modifier Product"
+        // Ajouter un écouteur de clic au bouton "Modifier le produit"
         Button buttonEditProduct = findViewById(R.id.buttoneditProduct);
         buttonEditProduct.setOnClickListener(view -> editProduct());
-        
-        Button addButton = findViewById(R.id.buttonCancel);
-        addButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ModifFormulairActivity.this, ProductAdminActivity.class);
-            startActivity(intent);
-        });
+
+        Button buttonCancel = findViewById(R.id.buttonCancel);
+        buttonCancel.setOnClickListener(v -> finish());
     }
 
     private void displayProductData() {
-        EditText editTextProductName = findViewById(R.id.editTextProductName);
-        EditText editTextDescription = findViewById(R.id.editTextDescription);
-        EditText editTextCategory = findViewById(R.id.editTextCategory);
-        EditText editTextAvailability = findViewById(R.id.editTextAvailability);
-        EditText editTextPrice = findViewById(R.id.editTextPrice);
-        EditText editTextLocation = findViewById(R.id.editTextLocation);
-
         Intent intent = getIntent();
         if (intent != null) {
             editTextProductName.setText(intent.getStringExtra("productName"));
@@ -57,23 +58,33 @@ public class ModifFormulairActivity extends AppCompatActivity {
             editTextAvailability.setText(intent.getStringExtra("productAvailability"));
             editTextPrice.setText(String.valueOf(intent.getIntExtra("productPrice", 0)));
             editTextLocation.setText(intent.getStringExtra("productLocation"));
+            editTextImageUrl.setText(intent.getStringExtra("productImageUrl"));
         }
     }
 
     private void editProduct() {
-        EditText editTextProductName = findViewById(R.id.editTextProductName);
-        EditText editTextDescription = findViewById(R.id.editTextDescription);
-        EditText editTextCategory = findViewById(R.id.editTextCategory);
-        EditText editTextAvailability = findViewById(R.id.editTextAvailability);
-        EditText editTextPrice = findViewById(R.id.editTextPrice);
-        EditText editTextLocation = findViewById(R.id.editTextLocation);
-
         String productName = editTextProductName.getText().toString();
         String description = editTextDescription.getText().toString();
         String category = editTextCategory.getText().toString();
         String availability = editTextAvailability.getText().toString();
         String priceText = editTextPrice.getText().toString();
         String location = editTextLocation.getText().toString();
+        String imageUrl = editTextImageUrl.getText().toString().trim();
+
+        // Log the values to verify
+        Log.d("ModifFormulairActivity", "Product Name: " + productName);
+        Log.d("ModifFormulairActivity", "Description: " + description);
+        Log.d("ModifFormulairActivity", "Category: " + category);
+        Log.d("ModifFormulairActivity", "Availability: " + availability);
+        Log.d("ModifFormulairActivity", "Price: " + priceText);
+        Log.d("ModifFormulairActivity", "Location: " + location);
+        Log.d("ModifFormulairActivity", "Image URL: " + imageUrl);
+
+        // Vérifier si tous les champs sont remplis
+        if (productName.isEmpty() || description.isEmpty() || category.isEmpty() || availability.isEmpty() || priceText.isEmpty() || location.isEmpty() || imageUrl.isEmpty()) {
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Vérifier si le champ de prix est une valeur numérique
         if (!isNumeric(priceText)) {
@@ -84,7 +95,7 @@ public class ModifFormulairActivity extends AppCompatActivity {
         int price = Integer.parseInt(priceText);
 
         // Créer un objet Product avec les valeurs des champs de formulaire
-        Product product = new Product(productName, description, category, availability, location, price);
+        Product product = new Product(productName, description, category, availability, location, price, imageUrl);
 
         // Appeler la méthode pour éditer le produit
         editProductRequest(product);
@@ -103,6 +114,7 @@ public class ModifFormulairActivity extends AppCompatActivity {
             requestBody.put("availability", product.getAvailability());
             requestBody.put("price", product.getPrice());
             requestBody.put("location", product.getLocation());
+            requestBody.put("imageUrl", product.getImageUrl());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -115,6 +127,7 @@ public class ModifFormulairActivity extends AppCompatActivity {
                             Toast.makeText(this, "Produit modifié avec succès", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ModifFormulairActivity.this, ProductAdminActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(this, "Erreur lors de la modification du produit: " + responseCode, Toast.LENGTH_LONG).show();
                         }
@@ -123,9 +136,7 @@ public class ModifFormulairActivity extends AppCompatActivity {
                         Toast.makeText(this, "Erreur lors de la modification du produit", Toast.LENGTH_LONG).show();
                     }
                 },
-                error -> {
-                    Toast.makeText(this, "Échec de la modification du produit: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                });
+                error -> Toast.makeText(this, "Échec de la modification du produit: " + error.getMessage(), Toast.LENGTH_LONG).show());
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
@@ -136,4 +147,3 @@ public class ModifFormulairActivity extends AppCompatActivity {
         return sharedPref.getString("token", "");
     }
 }
-
