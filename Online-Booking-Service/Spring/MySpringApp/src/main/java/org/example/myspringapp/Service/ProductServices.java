@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +44,7 @@ public class ProductServices {
             #CRUD operations implemented
     */
 
-    public Map<String,Object> addProduct(Product product ,String token){
+    public Map<String,Object> addProductVol1(Product product ,String token){
         Map<String,Object> response = new HashMap<>();
 
         if (jwtUtils.isTokenExpired(token)){
@@ -54,6 +56,29 @@ public class ProductServices {
             response.put("response",500);
             return response;
 
+        }
+        //assuming that all fields in Product are full
+        productRepository.save(product);
+        response.put("response",200);
+
+        return response;
+    }
+
+    public Map<String,Object> addProduct(Product product , String token, MultipartFile imageFile) throws IOException {
+        Map<String,Object> response = new HashMap<>();
+
+        if (jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+        //check if the name is unique
+        if(productRepository.findByName(product.getName()) != null){
+            response.put("response",500);
+            return response;
+
+        }
+        if (imageFile != null && !imageFile.isEmpty()) {
+            product.setImage(imageFile.getBytes());
         }
         //assuming that all fields in Product are full
         productRepository.save(product);
@@ -107,6 +132,44 @@ public class ProductServices {
         return response;
 
     }
+    public Map<String, Object> editProduct(Product product, String token, MultipartFile imageFile) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (jwtUtils.isTokenExpired(token)) {
+            response.put("response", 501);
+            return response;
+        }
+
+        Product existingProduct = productRepository.findByName(product.getName());
+        if (existingProduct == null) {
+            response.put("response", 502);
+            return response;
+        } else {
+            existingProduct.setAvailability(product.getAvailability());
+            existingProduct.setName(product.getName());
+            existingProduct.setCategory(product.getCategory());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setLocation(product.getLocation());
+            existingProduct.setPrice(product.getPrice());
+
+            // Handle image upload
+            try {
+                existingProduct.setImage(imageFile.getBytes()); // Assuming you have a 'byte[] image' field in your Product entity
+            } catch (IOException e) {
+                e.printStackTrace();
+                response.put("response", 503); // Error while uploading image
+                return response;
+            }
+
+            productRepository.save(existingProduct);
+            response.put("response", 200);
+        }
+
+        return response;
+    }
+
+
+
 
     public Map<String,Object> filterByCategory(String category , String token,int page){
         Map<String,Object> response = new HashMap<>();

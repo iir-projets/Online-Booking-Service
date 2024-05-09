@@ -215,6 +215,7 @@ function Products() {
               key={services.id}
               id={services.id}
               title={services.name}
+              image={services.image}
               onDetails={() => {
                 onDetails(services);
               }}

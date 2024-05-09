@@ -1,6 +1,7 @@
 package org.example.myspringapp.Controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.myspringapp.Model.Product;
 import org.example.myspringapp.Model.User;
 import org.example.myspringapp.Repositories.ProductRepository;
@@ -11,9 +12,13 @@ import org.example.myspringapp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,22 +82,62 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @PostMapping("/services/add")
+    @PostMapping("/services/addPrevious")
     public Map<String,Object> addProduct(@RequestParam String token,@RequestBody Product product){
         System.out.println("my product is " + product);
-        Map<String,Object> response = productServices.addProduct(product,token);
+        Map<String,Object> response = productServices.addProductVol1(product,token);
         System.out.println(response);
         //Tested in Postman Successfully ✅
         return response;
     }
+    /*@PostMapping("/services/add")
+    public Map<String, Object> addProduct(@RequestParam String token,
+                                          @RequestPart Product product,
+                                          @RequestPart(required = false) MultipartFile imageFile) throws IOException {
+        System.out.println("my product is " + product);
+        return productServices.addProduct(product, token, imageFile);
 
-    @PostMapping("/services/edit")
+    }*/
+    @PostMapping("/services/add")
+    public ResponseEntity<Map<String, Object>> addProduct(
+            @RequestParam String token,
+            @RequestParam("product") String productJson, // Assuming "product" is the JSON data
+            @RequestParam("imageFile") MultipartFile imageFile
+    ) throws IOException {
+        // Convert product JSON string to Product object
+        Product product = new ObjectMapper().readValue(productJson, Product.class);
+
+        Map<String, Object> response = productServices.addProduct(product, token, imageFile);
+
+        HttpStatus status = response.get("response").equals(200) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(response, status);
+    }
+
+    @PostMapping("/services/edit/old")
     public Map<String,Object> editProduct(@RequestParam String token,@RequestBody Product product){
         Map<String,Object> response = productServices.editProduct(product,token);
         System.out.println(response);
         //Tested in Postman Successfully ✅
         return response;
     }
+    @PostMapping("/services/edit")
+    public ResponseEntity<Map<String, Object>> editProduct(
+            @RequestParam String token,
+            @RequestParam("product") String productJson, // Assuming "product" is the JSON data
+            @RequestParam("imageFile") MultipartFile imageFile
+    ) throws IOException {
+        // Convert product JSON string to Product object
+        Product product = new ObjectMapper().readValue(productJson, Product.class);
+
+        Map<String, Object> response = productServices.editProduct(product, token, imageFile);
+
+        HttpStatus status = response.get("response").equals(200) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(response, status);
+    }
+
+
+
+
 
 
     @PostMapping("/services/delete")

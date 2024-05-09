@@ -30,7 +30,16 @@ function Container(props) {
 
   useEffect(() => {
     // Update image whenever props.id changes
-    Setimage(gallery.get(props.id));
+      
+      if(props.image!= null){
+        console.log(`data:image/jpeg;base64,${props.image}`)
+        Setimage((`data:image/jpeg;base64,${props.image}`))
+      }else{
+        console.log("iam here")
+        Setimage(gallery.get(props.id));
+      }
+    
+    
   }, [props.id, gallery]);
 
   return (
