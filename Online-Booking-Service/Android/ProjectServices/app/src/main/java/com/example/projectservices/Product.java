@@ -8,10 +8,11 @@ public class Product {
     private String availability;
     private String location;
     private int price;
+    private String imageUrl;
 
 
     public Product(String name, String description, String category, String availability, String location, int price) {
-        this.id = id;
+        this.id = id ;
         this.name = name;
         this.description = description;
         this.category = category;
@@ -20,6 +21,23 @@ public class Product {
         this.price = price;
     }
 
+    public Product(String name, String description, String category, String availability, String location, int price, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.availability = availability;
+        this.location = location;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     // Getters et Setters
     public Long getId() { return id; }

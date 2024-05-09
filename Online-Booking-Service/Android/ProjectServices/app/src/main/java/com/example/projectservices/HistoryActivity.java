@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -20,8 +21,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -71,6 +78,9 @@ public class HistoryActivity extends AppCompatActivity {
             if (responseCode == 200) {
                 JSONArray jsonArray = response.getJSONArray("data");
                 reservations.clear();
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject reservationObj = jsonArray.getJSONObject(i);
                     JSONObject productObj = reservationObj.getJSONObject("product");
@@ -84,7 +94,23 @@ public class HistoryActivity extends AppCompatActivity {
                     String location = productObj.optString("location", "No Location");
                     String reservationDate = reservationObj.optString("reservationDate", "No Date");
 
-                    reservations.add(new Reservation(reservationId, productName, description, category, availability, price, location, reservationDate));
+                    // Log the original date string
+                    Log.d("HistoryActivity", "Original Date: " + reservationDate);
+
+                    // Convert and format the date
+                    String formattedDate = "No Date";
+                    try {
+                        OffsetDateTime date = OffsetDateTime.parse(reservationDate, inputFormatter);
+                        formattedDate = date.format(outputFormatter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("HistoryActivity", "Exception: " + e.getMessage());
+                    }
+
+                    // Log the formatted date
+                    Log.d("HistoryActivity", "Formatted Date: " + formattedDate);
+
+                    reservations.add(new Reservation(reservationId, productName, description, category, availability, price, location, formattedDate));
                 }
                 adapter.notifyDataSetChanged();
             } else {
@@ -95,4 +121,5 @@ public class HistoryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 }

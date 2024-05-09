@@ -37,7 +37,6 @@ public class ProductAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_admin);
 
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         productList = new ArrayList<>();
@@ -54,9 +53,19 @@ public class ProductAdminActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        Button logoutButton = findViewById(R.id.Btnlogout);
+        logoutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductAdminActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
         fetchProductsFromApi();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchProductsFromApi(); // Refresh the product list whenever the activity comes to the foreground
     }
 
     private void fetchProductsFromApi() {
@@ -67,7 +76,6 @@ public class ProductAdminActivity extends AppCompatActivity {
             return;
         }
 
-        // Append the token as a query parameter
         String url = "http://10.0.2.2:9085/services?token=" + Uri.encode(token);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null,
@@ -98,8 +106,9 @@ public class ProductAdminActivity extends AppCompatActivity {
                     String availability = productObj.getString("availability");
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
+                    String imageUrl = productObj.getString("imageUrl");
 
-                    Product product = new Product(name, description, category, availability, location, price);
+                    Product product = new Product(name, description, category, availability, location, price, imageUrl);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
@@ -112,39 +121,29 @@ public class ProductAdminActivity extends AppCompatActivity {
         }
     }
 
-
     public void deleteProduct(Product product) {
-        // Call your API to add the product
         String url = "http://10.0.2.2:9085/services/delete?token=" + token;
-        Log.d("FormulairActivity","token 1111 : "+ token);
+        Log.d("FormulairActivity", "token 1111 : " + token);
 
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("name", product.getName());
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                 response -> {
-                    // Handle successful deletion
                     Toast.makeText(this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-
-                    // Refresh the product list after deletion
-                    fetchProductsFromApi();
-
+                    fetchProductsFromApi(); // Refresh the product list after deletion
                 },
                 error -> {
-                    // Handle error
                     Toast.makeText(this, "Failed to delete product: " + error.getMessage(), Toast.LENGTH_LONG).show();
                 });
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
-
-
 
     private void handleError(VolleyError error) {
         Toast.makeText(this, "Failed to retrieve data: " + error.toString(), Toast.LENGTH_LONG).show();

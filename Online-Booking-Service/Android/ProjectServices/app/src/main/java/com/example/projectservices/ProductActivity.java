@@ -49,6 +49,11 @@ public class ProductActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductActivity.this, HistoryActivity.class);
             startActivity(intent);
         });
+        Button logoutButton = findViewById(R.id.btnlout);
+        logoutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
         fetchProductsFromApi();
     }
@@ -99,8 +104,9 @@ public class ProductActivity extends AppCompatActivity {
                     String availability = productObj.getString("availability");
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
+                    String imageUrl =productObj.getString("imageUrl");
 
-                    Product product = new Product(name, description, category, availability, location, price);
+                    Product product = new Product(name, description, category, availability, location, price,imageUrl);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
