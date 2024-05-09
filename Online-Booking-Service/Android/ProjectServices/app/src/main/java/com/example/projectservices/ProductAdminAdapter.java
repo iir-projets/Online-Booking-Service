@@ -2,28 +2,18 @@ package com.example.projectservices;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.example.projectservices.Product;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -53,20 +43,24 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
         holder.productCategory.setText(product.getCategory());
 
+        // Load the product image using Glide
+        Glide.with(context)
+                .load(product.getImageUrl()) // Assuming the Product model has a method getImageUrl()
+                .placeholder(R.drawable.placeholder_image) // Placeholder image
+                .into(holder.productImage);
+
         holder.productImage.setOnClickListener(view -> {
             // Show product details dialog when image is clicked
             showProductDetails(product);
         });
 
         holder.btnEdit.setOnClickListener(view -> {
-
             showModificationConfirmationDialog(product);
         });
 
         holder.btnDelete.setOnClickListener(view -> {
-
-            showDeleteConfirmationDialog(product); });
-
+            showDeleteConfirmationDialog(product);
+        });
     }
 
     @Override
@@ -102,6 +96,7 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     private void showModificationConfirmationDialog(Product product) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Confirmation");
@@ -123,9 +118,6 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
-
 
     private void showProductDetails(Product product) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

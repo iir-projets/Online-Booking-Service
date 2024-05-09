@@ -24,4 +24,5 @@ public class Product {
     private String availability;
     private String Location;
     private int price ;
+    private String imageUrl;
 }

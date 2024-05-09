@@ -23,7 +23,7 @@ import org.json.JSONObject;
 public class FormulairActivity extends AppCompatActivity {
 
     private EditText editTextProductName, editTextDescription, editTextCategory,
-            editTextAvailability, editTextPrice, editTextLocation;
+            editTextAvailability, editTextPrice, editTextLocation,editTextImageUrl;
     private Button buttonAddProduct;
     private String token;
 
@@ -38,6 +38,7 @@ public class FormulairActivity extends AppCompatActivity {
         editTextCategory = findViewById(R.id.editTextCategory);
         editTextAvailability = findViewById(R.id.editTextAvailability);
         editTextPrice = findViewById(R.id.editTextPrice);
+        editTextImageUrl = findViewById(R.id.editTextImageUrl);
         editTextLocation = findViewById(R.id.editTextLocation);
         buttonAddProduct = findViewById(R.id.buttoneditProduct);
 
@@ -61,16 +62,17 @@ public class FormulairActivity extends AppCompatActivity {
         String availability = editTextAvailability.getText().toString().trim();
         int price = Integer.parseInt(editTextPrice.getText().toString().trim());
         String location = editTextLocation.getText().toString().trim();
+        String imageUrl = editTextImageUrl.getText().toString().trim();
 
         // Check if any field is empty
         if (productName.isEmpty() || description.isEmpty() || category.isEmpty() ||
-                availability.isEmpty() || location.isEmpty()) {
+                availability.isEmpty() || location.isEmpty() || imageUrl.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Create Product object
-        Product product = new Product( productName, description, category, availability, location, price);
+        Product product = new Product( productName, description, category, availability, location, price,imageUrl);
 
         // Call method to add product
         addProductToAPI(product);
@@ -90,6 +92,7 @@ public class FormulairActivity extends AppCompatActivity {
             requestBody.put("availability", product.getAvailability());
             requestBody.put("price", product.getPrice());
             requestBody.put("location", product.getLocation());
+            requestBody.put("imageUrl",product.getImageUrl());
         } catch (JSONException e) {
             e.printStackTrace();
         }

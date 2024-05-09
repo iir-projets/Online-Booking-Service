@@ -9,7 +9,7 @@
         android:id="@+id/textView5"
         android:layout_width="373dp"
         android:layout_height="75dp"
-        android:text="Formulaire d' ajout"
+        android:text="Formulaire d'ajout"
         android:textSize="30sp" />
 
     <EditText
@@ -48,18 +48,25 @@
         android:layout_height="wrap_content"
         android:hint="Location" />
 
+    <EditText
+        android:id="@+id/editTextImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Image URL" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="16dp">
+
         <Button
             android:id="@+id/buttoneditProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
-            android:text="ajouter le produit" />
+            android:text="Ajouter le produit" />
 
         <Button
             android:id="@+id/buttonCancel"
@@ -68,8 +75,6 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="Annuler" />
-
-
 
     </LinearLayout>
 

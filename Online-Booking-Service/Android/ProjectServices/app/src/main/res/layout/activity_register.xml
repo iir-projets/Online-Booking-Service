@@ -111,15 +111,15 @@
         app:layout_constraintTop_toBottomOf="@+id/inputUsername" />
 
     <EditText
-        android:id="@+id/inputConfirmPassword"
+        android:id="@+id/codeCarte"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/baseline_security"
+        android:drawableLeft="?android:attr/fingerprintAuthDrawable"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="@string/ConfirmPassword"
+        android:hint="CodeCarte :"
         android:inputType="textPassword"
         android:paddingStart="20dp"
         android:paddingTop="10dp"
@@ -129,13 +129,14 @@
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/inputPassword"
         app:layout_constraintStart_toStartOf="@+id/inputPassword"
-        app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/inputPassword"
+        />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn_bg"
         android:paddingStart="20dp"
         android:paddingTop="10dp"
@@ -146,9 +147,10 @@
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
         android:textColorLink="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/inputConfirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/inputConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/inputConfirmPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/codeCarte"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="@+id/codeCarte"
+        app:layout_constraintTop_toBottomOf="@+id/codeCarte" />
 
     <TextView
         android:id="@+id/alreadyHaveAccount"
