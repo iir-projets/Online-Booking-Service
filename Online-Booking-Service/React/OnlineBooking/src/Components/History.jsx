@@ -93,14 +93,9 @@ function History() {
                   {product.product.name}
                 </td>
                 <td className="px-6 py-4">{product.product.price}</td>
-<<<<<<< HEAD
                 <td className="px-6 py-4">
                   {formatDate(product.reservationDate)}
                 </td>
-=======
-                <td className="px-6 py-4">{formatDate(product.reservationDate)}</td>
-
->>>>>>> 8c0d393e720ea7ede0696a6df4146a63fa1ff882
               </tr>
             ))}
           </tbody>
