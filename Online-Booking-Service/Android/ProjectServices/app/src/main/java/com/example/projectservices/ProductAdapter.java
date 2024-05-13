@@ -53,9 +53,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Set a click listener for the reserve button
         holder.btnReserve.setOnClickListener(view -> {
             if (context instanceof ProductActivity) {
-                ((ProductActivity) context).makeReservation(product.getName(), token);
+                Product producte = productList.get(holder.getAdapterPosition());
+                ((ProductActivity) context).generatePDF(producte.getName(), producte.getPrice(), token);
             }
         });
+
+
     }
 
     @Override
