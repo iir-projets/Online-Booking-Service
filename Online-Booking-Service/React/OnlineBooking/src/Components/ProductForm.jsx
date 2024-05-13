@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import classes from "./ProductForm.module.css";
+import toast, { Toaster } from "react-hot-toast";
 
 function ProductForm(props) {
   // States management:
@@ -84,7 +85,6 @@ function ProductForm(props) {
     );
   }
 
-
   //API diffrent Calls :
   // Calling Create API
   const handleAddProduct = async () => {
@@ -96,16 +96,16 @@ function ProductForm(props) {
       description: productDescription,
       availability: "true",
     };
-  
+
     const formData = new FormData();
     formData.append("product", JSON.stringify(product)); // Convert product object to JSON and append to FormData
     formData.append("imageFile", image); // Append the selected image file to FormData
-  
+
     const requestOptions = {
       method: "POST",
       body: formData, // Use FormData instead of JSON.stringify
     };
-  
+
     try {
       const response = await fetch(
         `http://localhost:9085/services/add?token=${token}`,
@@ -114,7 +114,7 @@ function ProductForm(props) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+      toast.success("added Successfully !")
       const data = await response.json();
       console.log("Product added successfully:", data);
       // Optionally, you can update state or perform any other action after adding the product
@@ -122,7 +122,7 @@ function ProductForm(props) {
       console.error("There was a problem adding the product:", error);
     }
   };
-  
+
   // Calling Create API
   const handleDeleteProduct = async () => {
     // Ensure that productName, productCategory, productLocation,
@@ -153,6 +153,7 @@ function ProductForm(props) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      toast.error("deleted successfully !")
 
       const data = await response.json();
       console.log("Product added successfully:", data);
@@ -171,16 +172,16 @@ function ProductForm(props) {
       description: productDescription,
       availability: "true",
     };
-  
+
     const formData = new FormData();
     formData.append("product", JSON.stringify(product));
     formData.append("imageFile", image); // Assuming 'image' is the selected image file
-  
+
     const requestOptions = {
       method: "POST",
       body: formData,
     };
-  
+
     try {
       const response = await fetch(
         `http://localhost:9085/services/edit?token=${token}`,
@@ -189,7 +190,8 @@ function ProductForm(props) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+      toast.success("produt edited Successfully !")
+
       const data = await response.json();
       console.log("Product edited successfully:", data);
       // Optionally, you can update state or perform any other action after editing the product
@@ -197,7 +199,6 @@ function ProductForm(props) {
       console.error("There was a problem editing the product:", error);
     }
   };
-  
 
   //handling Submit
   function handleSubmit() {
@@ -229,6 +230,7 @@ function ProductForm(props) {
   return (
     <>
       <div>
+        <Toaster position="bottom-left" reverseOrder={false} />
         <div className="p-8 grid grid-cols-2 gap-5 justify-center ">
           {/* Div container for each label and input */}
           {/* Product Name */}
@@ -303,18 +305,22 @@ function ProductForm(props) {
             ></textarea>
           </div>
           {/*   Image Upload    */}
-          <div>
+          <div className="">
             <h1>Upload Image</h1>
-            <input type="file" onChange={handleFileUpload} />
+            <input className="" type="file" onChange={handleFileUpload} />
             {image && (
-              <div>
-                <h2>Uploaded Image Preview</h2>
-                <img src={URL.createObjectURL(image)} alt="Uploaded" />
+              <div className="flex p-2 mt-5">
+                <img
+                  className="rounded-xl "
+                  src={URL.createObjectURL(image)}
+                  alt="Uploaded"
+                />
               </div>
             )}
           </div>
-          
-          <div className="flex justify-center">
+          <p></p>
+
+          <div className="flex justify-end">
             <button
               className="border-2 p-4 w-1/2 font-thin font-serif text-xl bg-red-400 rounded-2xl text-white justify-center hover:bg-white hover:text-red-400 duration-700 dark:bg-purple-500 dark:hover:text-purple-500 dark:hover:border-purple-500 hover:border-red-400 shadow-2xl hover:w-7/12 hover:text-2xl flex gap-2"
               onClick={handleSubmit}

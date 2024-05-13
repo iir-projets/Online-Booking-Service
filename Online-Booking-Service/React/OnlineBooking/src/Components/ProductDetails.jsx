@@ -12,6 +12,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import "../index.css";
 import Succes from "./Succes";
 import Loading from "./Loading";
+import { Toaster , toast } from "react-hot-toast";
 
 function ProductDetails(props) {
   //Ref
@@ -50,8 +51,6 @@ function ProductDetails(props) {
         [6, TaxiDriver],
         [7, receptionist],
         [9, TaxiDriver],
-
-
       ]),
     []
   );
@@ -60,7 +59,6 @@ function ProductDetails(props) {
     // Update image whenever props.id changes
     Setimage(gallery.get(data.id));
   }, [data.id, gallery]);
-  
 
   // Submit Reservatin handling :
   function makeReservation(event) {
@@ -69,10 +67,10 @@ function ProductDetails(props) {
     console.log(token);
     const requestBody = {
       productName: data.name,
-      price:data.price,
+      price: data.price,
       token: token,
     };
-
+  
     fetch("http://localhost:9085/reservation/PDF", {
       method: "POST",
       headers: {
@@ -80,30 +78,35 @@ function ProductDetails(props) {
       },
       body: JSON.stringify(requestBody),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.response == 200) {
-          console.log("reservation made successfully");
-          switchOn(LoadingRef);
-          const TurnLoadingOFF = setTimeout(() => switchOff(), 3000); //turn off after 3s
-          const showSucces = setTimeout(() => switchOn(SuccesRef), 3001); //turn on after 3s
-          const TurnSuccesOFF = setTimeout(() => switchOff(), 6000); //turn off after another 3s
+      .then((response) => {
+        if (response.ok) {
+          // Check if response is OK (status code 200)
+          return response.blob(); // Return the response as a blob (PDF file)
         }
-        // Handle response data as needed
+        throw new Error("Network response was not ok.");
+      })
+      .then((blob) => {
+        // Create a URL for the blob (PDF file)
+        const url = URL.createObjectURL(blob);
+        // Open the PDF in a new tab/window
+        window.open(url);
+        // Optional: Handle success or display a message
+        toast.success('Successfully Booked!');
+        console.log("Reservation made successfully");
       })
       .catch((error) => {
         console.error("Error:", error);
         // Handle errors
       });
   }
+  
 
   console.log(data);
   console.log(localStorage.getItem("token"));
- 
 
   return (
     <div>
+      <Toaster position="bottom-left" reverseOrder={false} />
       <div
         className={`backdrop ${isLoadingVisible ? "visible" : "hidden"}`}
         ref={LoadingRef}
