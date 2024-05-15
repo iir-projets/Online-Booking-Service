@@ -31,7 +31,6 @@ public class ReservationController {
     PDFService pdfService;
 
 
-
     /*@PostMapping("/reservation/PDF")
     public Map<String, Object> generatePDF(@RequestBody PDFContentDTO requestDTO) throws IOException {
         //DTO stands for Data Transfer Object
@@ -69,6 +68,7 @@ public class ReservationController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @PostMapping()
     public ResponseEntity<byte[]> generatePDF(@RequestBody PDFContentDTO requestDTO) {
         try {
@@ -86,7 +86,6 @@ public class ReservationController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-
-
 }
+
+

@@ -156,6 +156,7 @@ public class ProductController {
         return  response;
     }
 
+
     @PostMapping("/services/addRating")
     public Map<String, Object> addRating(
             @RequestParam("token") String token,
@@ -168,3 +169,4 @@ public class ProductController {
         return productServices.AddRating(token, reviewDTO);
     }
 }
+

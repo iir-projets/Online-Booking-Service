@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -106,9 +107,9 @@ public class ProductAdminActivity extends AppCompatActivity {
                     String availability = productObj.getString("availability");
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
-                    String imageUrl = productObj.getString("imageUrl");
+                    byte[] image = Base64.decode(productObj.getString("image"), Base64.DEFAULT);
 
-                    Product product = new Product(name, description, category, availability, location, price, imageUrl);
+                    Product product = new Product(name, description, category, availability, location, price,image);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
