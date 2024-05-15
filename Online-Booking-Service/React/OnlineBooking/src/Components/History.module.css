@@ -1,0 +1,10 @@
+.table-container {
+    height: 50vh; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  
+  .custom-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }

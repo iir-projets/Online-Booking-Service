@@ -44,17 +44,16 @@ function History() {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Months are zero-based, so add 1
     const year = date.getFullYear();
-  
+
     // Pad single-digit day and month with leading zeros if needed
-    const formattedDay = String(day).padStart(2, '0');
-    const formattedMonth = String(month).padStart(2, '0');
-  
+    const formattedDay = String(day).padStart(2, "0");
+    const formattedMonth = String(month).padStart(2, "0");
+
     // Format the date as DD/MM/YYYY
     const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
-    
+
     return formattedDate;
   }
-  
 
   return (
     <>
@@ -94,8 +93,9 @@ function History() {
                   {product.product.name}
                 </td>
                 <td className="px-6 py-4">{product.product.price}</td>
-                <td className="px-6 py-4">{formatDate(product.reservationDate)}</td>
-
+                <td className="px-6 py-4">
+                  {formatDate(product.reservationDate)}
+                </td>
               </tr>
             ))}
           </tbody>
