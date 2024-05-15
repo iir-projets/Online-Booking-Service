@@ -9,6 +9,7 @@ public class Product {
     private String location;
     private int price;
     private String imageUrl;
+    private byte[] image ;
 
 
     public Product(String name, String description, String category, String availability, String location, int price) {
@@ -29,6 +30,27 @@ public class Product {
         this.location = location;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public Product( String name, String description, String category, String availability, String location, int price, byte[] image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.availability = availability;
+        this.location = location;
+        this.price = price;
+        this.image = image;
+    }
+
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getImageUrl() {

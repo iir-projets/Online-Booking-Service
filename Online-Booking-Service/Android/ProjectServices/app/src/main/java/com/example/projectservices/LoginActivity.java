@@ -27,13 +27,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputEmail = findViewById(R.id.inputEmail); // Updated ID to follow naming convention
+        inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
 
-        Button btnLogin = findViewById(R.id.btn); // Updated ID and variable name for clarity
+        Button btnLogin = findViewById(R.id.btn);
         btnLogin.setOnClickListener(v -> authenticateUser());
 
-        TextView btnSignUp = findViewById(R.id.SingUp); // Updated ID to follow naming convention
+        TextView btnSignUp = findViewById(R.id.SingUp);
         btnSignUp.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
 

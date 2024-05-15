@@ -2,6 +2,7 @@ package com.example.projectservices;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -39,21 +42,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
         holder.productCategory.setText(product.getCategory());
 
-        // Load product image using Glide
-        Glide.with(context)
-                .load(product.getImageUrl())
-                .placeholder(R.drawable.placeholder_image)
-                .into(holder.productImage);
+        // Using Glide to load image from a byte array
+        if (product.getImage() != null) {
+            Glide.with(context)
+                    .load(product.getImage())  // Assuming getImage() returns a byte array
+                    .placeholder(R.drawable.placeholder_image)
+                    .into(holder.productImage);
+        } else {
+            holder.productImage.setImageResource(R.drawable.placeholder_image);
+        }
 
-        // Set a click listener for the image view to show product details
-        holder.productImage.setOnClickListener(view -> {
-            showProductDetails(product);
-        });
-
-        // Set a click listener for the reserve button
+        holder.productImage.setOnClickListener(view -> showProductDetails(product));
         holder.btnReserve.setOnClickListener(view -> {
             if (context instanceof ProductActivity) {
-                ((ProductActivity) context).makeReservation(product.getName(), token);
+                ((ProductActivity) context).generatePDF(product.getName(), product.getPrice(), token);
             }
         });
     }
@@ -85,11 +87,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 "\nDescription: " + product.getDescription() +
                 "\nPrice: $" + product.getPrice() +
                 "\nAvailability: " + product.getAvailability() +
-                "\nCategory: " + product.getCategory() +
-                "\nLocation: " + product.getLocation());
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            dialog.dismiss();
-        });
+                "\nCategory: " + product.getCategory());
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
