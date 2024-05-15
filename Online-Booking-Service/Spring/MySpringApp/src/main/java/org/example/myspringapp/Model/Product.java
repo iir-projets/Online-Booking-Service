@@ -25,4 +25,8 @@ public class Product {
     private String Location;
     private int price ;
     private String imageUrl;
+    @Lob
+    @Column(length = 1_000_000) // Adjust the length as per your requirement
+    private byte[] image;
+
 }

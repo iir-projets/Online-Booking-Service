@@ -43,10 +43,9 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         holder.productPrice.setText(String.format("$%s", product.getPrice()));
         holder.productCategory.setText(product.getCategory());
 
-        // Load the product image using Glide
         Glide.with(context)
-                .load(product.getImageUrl()) // Assuming the Product model has a method getImageUrl()
-                .placeholder(R.drawable.placeholder_image) // Placeholder image
+                .load(product.getImage())  // Assuming getImage() returns a byte array
+                .placeholder(R.drawable.placeholder_image)
                 .into(holder.productImage);
 
         holder.productImage.setOnClickListener(view -> {
