@@ -122,7 +122,7 @@ public class ProductAdminActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteProduct(Product product) {
+    public void deleteProduct(String token, Product product) {
         String url = "http://10.0.2.2:9085/services/delete?token=" + token;
         Log.d("FormulairActivity", "token 1111 : " + token);
 
@@ -136,7 +136,7 @@ public class ProductAdminActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody,
                 response -> {
                     Toast.makeText(this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-                    fetchProductsFromApi(); // Refresh the product list after deletion
+                    fetchProductsFromApi(); // Rafraîchir la liste des produits après la suppression
                 },
                 error -> {
                     Toast.makeText(this, "Failed to delete product: " + error.getMessage(), Toast.LENGTH_LONG).show();
@@ -145,6 +145,8 @@ public class ProductAdminActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
+
+
 
     private void handleError(VolleyError error) {
         Toast.makeText(this, "Failed to retrieve data: " + error.toString(), Toast.LENGTH_LONG).show();

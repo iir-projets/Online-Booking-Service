@@ -89,7 +89,8 @@ public class ProductAdminAdapter extends RecyclerView.Adapter<ProductAdminAdapte
         builder.setMessage("Are you sure you want to delete this product?");
         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
             // Call API to delete the product
-            ((ProductAdminActivity) context).deleteProduct(product);
+            ((ProductAdminActivity) context).deleteProduct(token, product);
+            ;
         });
         builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();
