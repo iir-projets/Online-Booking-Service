@@ -32,7 +32,7 @@ function Container(props) {
     // Update image whenever props.id changes
       
       if(props.image!= null){
-        console.log(`data:image/jpeg;base64,${props.image}`)
+        //console.log(`data:image/jpeg;base64,${props.image}`)
         Setimage((`data:image/jpeg;base64,${props.image}`))
       }else{
         console.log("iam here")
@@ -41,6 +41,8 @@ function Container(props) {
     
     
   }, [props.id, gallery]);
+  
+ 
 
   return (
 
@@ -50,7 +52,7 @@ function Container(props) {
         <img src={image} alt="" className="w-44" />
       </div>
       <p className="text-center font-mono text-2xl">{props.title}</p>
-      <p className="mt-2 font-mono text-l">Rating: ⭐⭐⭐⭐⭐</p>
+      <p className="mt-2 font-mono text-l">Rating: , {"⭐".repeat(props.rating)} </p>
       <div className="flex justify-center items-center w-full">
         <button
           className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"

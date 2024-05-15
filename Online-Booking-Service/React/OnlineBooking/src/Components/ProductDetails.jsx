@@ -12,7 +12,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import "../index.css";
 import Succes from "./Succes";
 import Loading from "./Loading";
-import { Toaster , toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
 function ProductDetails(props) {
   //Ref
@@ -70,7 +70,7 @@ function ProductDetails(props) {
       price: data.price,
       token: token,
     };
-  
+
     fetch("http://localhost:9085/reservation/PDF", {
       method: "POST",
       headers: {
@@ -91,7 +91,7 @@ function ProductDetails(props) {
         // Open the PDF in a new tab/window
         window.open(url);
         // Optional: Handle success or display a message
-        toast.success('Successfully Booked!');
+        toast.success("Successfully Booked!");
         console.log("Reservation made successfully");
       })
       .catch((error) => {
@@ -99,7 +99,6 @@ function ProductDetails(props) {
         // Handle errors
       });
   }
-  
 
   console.log(data);
   console.log(localStorage.getItem("token"));
@@ -131,17 +130,26 @@ function ProductDetails(props) {
           />
           <div className="text-container mt-5">
             <h1 className=" p-4">{data.name} </h1>
-            <h1 className=" p-4">Rating : ⭐⭐⭐⭐⭐</h1>
+            <h1 className=" p-4">Rating : {"⭐".repeat(data.rating)}</h1>
             <h1 className=" p-4">Location : {data.location}</h1>
             <h1 className=" p-4">Category : {data.category}</h1>
             <h1 className=" p-4">Price : {data.price}</h1>
             <h1 className=" p-4">Description : {data.description}</h1>
-            <button
-              onClick={makeReservation}
-              className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
-            >
-              Submit Reservation <CiCircleCheck className="mt-1" />
-            </button>
+            <div className="flex">
+              {" "}
+              <button
+                onClick={makeReservation}
+                className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
+              >
+                Submit Reservation <CiCircleCheck className="mt-1" />
+              </button>
+              <button
+                onClick={makeReservation}
+                className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
+              >
+                See Others Reviews <CiCircleCheck className="mt-1" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

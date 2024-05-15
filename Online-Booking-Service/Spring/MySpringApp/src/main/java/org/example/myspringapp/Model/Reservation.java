@@ -31,4 +31,6 @@ public class Reservation {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date reservationDate;
+
+    private String Comment ;
 }

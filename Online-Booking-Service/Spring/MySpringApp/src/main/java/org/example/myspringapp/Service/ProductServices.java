@@ -1,6 +1,8 @@
 package org.example.myspringapp.Service;
 
+import org.example.myspringapp.DTO.ReviewDTO;
 import org.example.myspringapp.Model.Product;
+import org.example.myspringapp.Model.Reservation;
 import org.example.myspringapp.Repositories.ProductRepository;
 import org.example.myspringapp.Repositories.ReservationRepository;
 import org.example.myspringapp.Repositories.UserRepository;
@@ -267,5 +269,40 @@ public class ProductServices {
         response.put("isLast",page==LastPage);
         response.put("isFirst",page==1);
         return response;
+    }
+
+    public Map<String ,Object> AddRating(String token , ReviewDTO reviewDTO){
+        Map<String,Object> response= new HashMap<>();
+        //1st step => check if token is valid
+        if (jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+
+        //2nd step => Get the product Object
+        Product product =  productRepository.findById(reviewDTO.getReservation().getProduct().getId());
+        //3rd step => get the product if exist
+        if(product == null){
+            response.put("response" , 502);
+            return response;
+        }
+        // calculer et save rating
+        int count = productRepository.countBookingsForProduct(product.getId());
+        int CalculatedRating = (int)((product.getRating()*count) + reviewDTO.getReservation().getProduct().getId())/(count+1);
+        product.setRating(CalculatedRating);
+        productRepository.save(product);
+
+        // add comment
+
+        Reservation reservation = reservationRepository.findById(reviewDTO.getReservation().getId()).get();
+        reservation.setComment(reviewDTO.getCommentinput());
+
+        reservationRepository.save(reservation);
+
+        response.put("response",200);
+        response.put("rating",CalculatedRating);
+        response.put("comment",reviewDTO.getCommentinput());
+        return response;
+
     }
 }
