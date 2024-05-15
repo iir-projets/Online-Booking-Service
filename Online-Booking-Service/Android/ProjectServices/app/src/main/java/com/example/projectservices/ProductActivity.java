@@ -118,9 +118,9 @@ public class ProductActivity extends AppCompatActivity {
                     String availability = productObj.getString("availability");
                     String location = productObj.getString("location");
                     int price = productObj.getInt("price");
-                    String imageUrl =productObj.getString("imageUrl");
+                    byte[] image = Base64.decode(productObj.getString("image"), Base64.DEFAULT);
 
-                    Product product = new Product(name, description, category, availability, location, price,imageUrl);
+                    Product product = new Product(name, description, category, availability, location, price,image);
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
@@ -139,6 +139,7 @@ public class ProductActivity extends AppCompatActivity {
             return;
         }
 
+
         String url = "http://10.0.2.2:9085/reservation/PDF";
         JSONObject requestBody = new JSONObject();
         try {
@@ -156,8 +157,12 @@ public class ProductActivity extends AppCompatActivity {
             try {
                 Log.d("generatePDF", "PDF generated successfully, response length: " + response.length);
                 String filePath = savePdfToFile(response, "generated_pdf.pdf");
-                Toast.makeText(this, "PDF generated successfully!", Toast.LENGTH_SHORT).show();
-                openPdfFile(filePath);  // Open the PDF file
+                if (filePath != null) {
+                    Toast.makeText(this, "PDF generated successfully!", Toast.LENGTH_SHORT).show();
+                    openPdfFile(filePath);  // Open the PDF file
+                } else {
+                    Toast.makeText(this, "Failed to save PDF", Toast.LENGTH_LONG).show();
+                }
             } catch (Exception e) {
                 Toast.makeText(this, "Error handling PDF response", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -208,6 +213,7 @@ public class ProductActivity extends AppCompatActivity {
         queue.add(pdfRequest);
     }
 
+
     private String savePdfToFile(byte[] pdfBytes, String fileName) {
         try {
             File path = new File(getExternalFilesDir(null), fileName);
@@ -221,6 +227,7 @@ public class ProductActivity extends AppCompatActivity {
             return null;
         }
     }
+
 
     private void openPdfFile(String filePath) {
         File file = new File(filePath);
@@ -238,7 +245,6 @@ public class ProductActivity extends AppCompatActivity {
             Toast.makeText(this, "PDF file not found", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 
