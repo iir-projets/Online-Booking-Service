@@ -23,12 +23,14 @@ public class Product {
     private String category ;
     private String availability;
     private String Location;
+    private int Rating ;
     private int price ;
 
 
 
 
     @Lob
+    @Basic(fetch = FetchType.LAZY) // Make the image attribute lazy-loaded
     @Column(length = 1_000_000) // Adjust the length as per your requirement
     private byte[] image;
 

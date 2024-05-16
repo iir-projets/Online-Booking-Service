@@ -2,6 +2,7 @@ package org.example.myspringapp.Controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.myspringapp.DTO.ReviewDTO;
 import org.example.myspringapp.Model.Product;
 import org.example.myspringapp.Model.User;
 import org.example.myspringapp.Repositories.ProductRepository;
@@ -148,10 +149,31 @@ public class ProductController {
         return response;
     }
 
+
     @PostMapping("/service/page")
     public  Map<String,Object> getPagableProducts(@RequestParam int page,@RequestParam String token ){
         Map<String,Object> response = new HashMap<>();
         response.put("data",productServices.getPageableProducts(page,token));
         return  response;
     }
+
+
+    @PostMapping("/services/addRating")
+    public Map<String, Object> addRating(
+            @RequestParam("token") String token,
+            @RequestBody ReviewDTO reviewDTO , @RequestParam("comment") String Comment) {
+        System.out.println(Comment);
+        reviewDTO.setCommentinput(Comment);
+
+        System.out.println("comment"+reviewDTO.getCommentinput());
+
+        return productServices.AddRating(token, reviewDTO);
+    }
+
+
+    @PostMapping("services/comments")
+    public Map<String,Object> getComments(@RequestParam String token , @RequestParam Long id){
+        return productServices.getComments(token,id);
+    }
 }
+

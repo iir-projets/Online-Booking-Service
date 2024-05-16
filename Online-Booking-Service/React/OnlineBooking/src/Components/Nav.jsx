@@ -81,7 +81,8 @@ function Nav() {
           //navigate("/home");
         } else {
           // Token is not valid, remove it and navigate to login
-          const switchtologin = setTimeout(() => navigateTo("/Login"), 4000); //3.5s
+          const switchtologin = setTimeout(() => 
+          navigateTo("/Login"), 4000); //3.5s
           switchOn(SessionAnimation);
           console.log(SessionAnimation);
           localStorage.removeItem("token");

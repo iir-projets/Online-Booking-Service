@@ -1,8 +1,7 @@
 .container{
     width: 950px;
-    height: 680px;
+    height: 450px;
     font-family: 'Courier New', Courier, monospace;
     font-size: x-large;
-    overflow-y: scroll; /* or overflow-y: auto; */
     
 }

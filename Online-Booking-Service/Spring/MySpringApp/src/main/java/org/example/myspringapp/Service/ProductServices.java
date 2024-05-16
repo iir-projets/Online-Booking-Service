@@ -1,10 +1,12 @@
 package org.example.myspringapp.Service;
 
+import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.example.myspringapp.DTO.ReviewDTO;
+import org.example.myspringapp.Model.Comment;
 import org.example.myspringapp.Model.Product;
-import org.example.myspringapp.Repositories.ProductRepository;
-import org.example.myspringapp.Repositories.ReservationRepository;
-import org.example.myspringapp.Repositories.UserRepository;
-import org.example.myspringapp.Repositories.UserRoleRepository;
+import org.example.myspringapp.Model.Reservation;
+import org.example.myspringapp.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,8 @@ public class ProductServices {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CommentRepository commentRepository;
     @Autowired
     ProductRepository productRepository;
     @Autowired
@@ -64,29 +69,32 @@ public class ProductServices {
         return response;
     }
 
-    public Map<String,Object> addProduct(Product product , String token, MultipartFile imageFile) throws IOException {
-        Map<String,Object> response = new HashMap<>();
+    public Map<String, Object> addProduct(Product product, String token, MultipartFile imageFile) throws IOException {
+        Map<String, Object> response = new HashMap<>();
 
         if (jwtUtils.isTokenExpired(token)){
-            response.put("response",501);
+            response.put("response", 501);
             return response;
         }
-        //check if the name is unique
-        if(productRepository.findByName(product.getName()) != null){
-            response.put("response",500);
-            return response;
 
+        // Check if the name is unique
+        if (productRepository.findByName(product.getName()) != null){
+            response.put("response", 500);
+            return response;
         }
+
         if (imageFile != null && !imageFile.isEmpty()) {
-            product.setImage(imageFile.getBytes());
+            // Compress the image before saving
+            byte[] compressedImageData = compressImage(imageFile);
+            product.setImage(compressedImageData);
         }
-        //assuming that all fields in Product are full
+
+        // Assuming that all fields in Product are filled
         productRepository.save(product);
-        response.put("response",200);
+        response.put("response", 200);
 
         return response;
     }
-
     public Map<String,Object> deleteProducts(Product product , String token){
         Map<String,Object> response = new HashMap<>();
 
@@ -152,12 +160,13 @@ public class ProductServices {
             existingProduct.setLocation(product.getLocation());
             existingProduct.setPrice(product.getPrice());
 
-            // Handle image upload
+            // Handle image upload and compression
             try {
-                existingProduct.setImage(imageFile.getBytes()); // Assuming you have a 'byte[] image' field in your Product entity
+                byte[] compressedImageData = compressImage(imageFile);
+                existingProduct.setImage(compressedImageData); // Set compressed image data to Product entity
             } catch (IOException e) {
                 e.printStackTrace();
-                response.put("response", 503); // Error while uploading image
+                response.put("response", 503); // Error while compressing or uploading image
                 return response;
             }
 
@@ -166,6 +175,26 @@ public class ProductServices {
         }
 
         return response;
+    }
+
+
+    public Map<String,Object> getComments(String token,Long id){
+        Map<String,Object> response = new HashMap<>();
+
+        if (jwtUtils.isTokenExpired(token)) {
+            response.put("response", 501);
+            return response;
+        }
+        List<Reservation> reservationList = reservationRepository.findByProductId(id);
+        if(reservationList == null){
+            response.put("response",502);
+            response.put("data",reservationList);
+            return response;
+        }
+        response.put("response",200);
+        response.put("data",reservationList);
+
+        return  response;
     }
 
 
@@ -268,4 +297,58 @@ public class ProductServices {
         response.put("isFirst",page==1);
         return response;
     }
+
+
+    public Map<String ,Object> AddRating(String token , ReviewDTO reviewDTO){
+        Map<String,Object> response= new HashMap<>();
+        //1st step => check if token is valid
+        if (jwtUtils.isTokenExpired(token)){
+            response.put("response",501);
+            return response;
+        }
+
+        //2nd step => Get the product Object
+        Product product =  productRepository.findById(reviewDTO.getReservation().getProduct().getId());
+        //3rd step => get the product if exist
+        if(product == null){
+            response.put("response" , 502);
+            return response;
+        }
+        // calculer et save rating
+        int count = productRepository.countBookingsForProduct(product.getId());
+        int CalculatedRating = (int)((product.getRating()*count) + reviewDTO.getReservation().getProduct().getId())/(count+1);
+        product.setRating(CalculatedRating);
+        productRepository.save(product);
+
+        // add comment
+
+        Reservation reservation = reservationRepository.findById(reviewDTO.getReservation().getId()).get();
+        Comment comment = Comment.builder()
+                .Comment(reviewDTO.getCommentinput())
+                .reservation(reviewDTO.getReservation())
+                .build();
+        commentRepository.save(comment);
+
+        reservationRepository.save(reservation);
+
+        response.put("response",200);
+        response.put("rating",CalculatedRating);
+        response.put("comment",reviewDTO.getCommentinput());
+        return response;
+
+    }
+
+    public byte[] compressImage(MultipartFile imageFile) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        // Compress the image using Thumbnails library and write to output stream
+        Thumbnails.of(imageFile.getInputStream())
+                .size(100, 100) // Specify the desired dimensions
+                .outputQuality(0.6) // Adjust the quality as needed (0.0 to 1.0)
+                .toOutputStream(outputStream);
+
+        return outputStream.toByteArray(); // Convert output stream to byte array
+    }
+
 }
+

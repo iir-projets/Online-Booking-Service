@@ -12,18 +12,25 @@ import { CiCircleCheck } from "react-icons/ci";
 import "../index.css";
 import Succes from "./Succes";
 import Loading from "./Loading";
-import { Toaster , toast } from "react-hot-toast";
+import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
+import Comment from "./Comment";
 
 function ProductDetails(props) {
+
   //Ref
   const LoadingRef = useRef(null);
   const SuccesRef = useRef(null);
   // States
+  const [isCommetVisible, setIsCommentVisible] = useState(false);
+  const [comments, setComments] = useState([]);
   const [data, setData] = useState(props.service);
-  console.log("second component", data);
+
   const [image, Setimage] = useState(support);
   const [isLoadingVisible, setisLoadingVisible] = useState(false);
   const [isSuccesVisible, setisSuccesVisible] = useState(false);
+
+
 
   const switchOn = (ref) => {
     if (ref === SuccesRef) {
@@ -57,7 +64,8 @@ function ProductDetails(props) {
 
   useEffect(() => {
     // Update image whenever props.id changes
-    Setimage(gallery.get(data.id));
+    Setimage((`data:image/jpeg;base64,${props.service.image}`))
+
   }, [data.id, gallery]);
 
   // Submit Reservatin handling :
@@ -70,7 +78,7 @@ function ProductDetails(props) {
       price: data.price,
       token: token,
     };
-  
+
     fetch("http://localhost:9085/reservation/PDF", {
       method: "POST",
       headers: {
@@ -91,7 +99,7 @@ function ProductDetails(props) {
         // Open the PDF in a new tab/window
         window.open(url);
         // Optional: Handle success or display a message
-        toast.success('Successfully Booked!');
+        toast.success("Successfully Booked!");
         console.log("Reservation made successfully");
       })
       .catch((error) => {
@@ -99,10 +107,26 @@ function ProductDetails(props) {
         // Handle errors
       });
   }
-  
 
-  console.log(data);
-  console.log(localStorage.getItem("token"));
+  const toggleCommentVisibility = () => {
+    
+    setIsCommentVisible(!isCommetVisible);
+  };
+
+  const GetComments = async () => {
+    toggleCommentVisibility()
+    try {
+      const token = localStorage.getItem("token"); // Replace with your actual token value
+      const id = props.service.id; // Replace with the actual ID value
+      const response = await axios.post(
+        `http://localhost:9085/services/comments?token=${token}&id=${id}`
+      );
+      setComments(response.data.data); // Assuming the response is an array of comments
+      console.log(response.data.data)
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   return (
     <div>
@@ -122,8 +146,8 @@ function ProductDetails(props) {
         <Loading className="w-1/2" />
         <div className="w-2/6 ml-96">{/*<LoginSucces /> */}</div>
       </div>
-      <div className={classes.container}>
-        <div className="flex w-full bg-white h-full dark:bg-slate-800">
+      <div className={`${classes.container} dark:bg-slate-800`}>
+        <div className="dark:bg-slate-800 flex w-full bg-white h-full ">
           <img
             src={image}
             className="w-1/3 h-1/2 mt-8 ml-8 shadow-sm ring-1"
@@ -131,17 +155,31 @@ function ProductDetails(props) {
           />
           <div className="text-container mt-5">
             <h1 className=" p-4">{data.name} </h1>
-            <h1 className=" p-4">Rating : ⭐⭐⭐⭐⭐</h1>
+            <h1 className=" p-4">Rating : {"⭐".repeat(data.rating)}</h1>
             <h1 className=" p-4">Location : {data.location}</h1>
             <h1 className=" p-4">Category : {data.category}</h1>
             <h1 className=" p-4">Price : {data.price}</h1>
             <h1 className=" p-4">Description : {data.description}</h1>
-            <button
-              onClick={makeReservation}
-              className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
-            >
-              Submit Reservation <CiCircleCheck className="mt-1" />
-            </button>
+            <div className="flex">
+              {" "}
+              <button
+                onClick={makeReservation}
+                className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
+              >
+                Submit Reservation <CiCircleCheck className="mt-1" />
+              </button>
+              <button
+                onClick={GetComments}
+                className="flex justify-between gap-2 border-2 p-2 m-3 bg-red-400 text-white font-mono font-bold duration-1000 rounded-2xl hover:text-red-400 hover:bg-white hover:border-red-400 hover:translate-x-4"
+              >
+                See Others Reviews <CiCircleCheck className="mt-1" />
+              </button>
+            </div>
+            {isCommetVisible && comments.map((comment,index)=>(
+              <Comment key={index}
+              comment={comment.comment.comment}
+              user={comment.user.username} />
+            ))}
           </div>
         </div>
       </div>

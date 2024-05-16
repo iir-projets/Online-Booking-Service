@@ -168,4 +168,13 @@ public class UserService {
             return response;
         }
     }
+
+
+
+    public Map<String,Object> gethistory(){
+        Map<String ,Object> response = new HashMap<>();
+        response.put("data",reservationRepository.findAll());
+        response.put("response",200);
+        return response;
+    }
 }

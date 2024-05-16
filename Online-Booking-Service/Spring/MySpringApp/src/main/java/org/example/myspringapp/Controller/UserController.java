@@ -31,7 +31,11 @@ public class UserController {
         Map<String, Object> response = userService.getBookingHistory(token);
         return response;
     }
-    
+    @GetMapping("/Adminhistory")
+    public Map<String, Object> getFullBookingHistory() {
+        return userService.gethistory();
+
+    }
 
     @PostMapping("/authenticate")
     public Map<String, String> authenticateUser(@RequestBody Map<String, String> credentials) {

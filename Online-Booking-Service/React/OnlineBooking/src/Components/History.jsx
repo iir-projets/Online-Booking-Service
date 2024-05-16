@@ -1,12 +1,15 @@
 import Nav from "./Nav";
 import { useEffect, useState } from "react";
+import Modal from "./Modal";
 import axios from "axios";
+import Rating from "./Rating";
 
 function History() {
-  console.log(localStorage.getItem("token"));
 
   const [Data, setData] = useState([]);
+  const [ReservationToRate, setReservationToRate] = useState();
   const [DataHistory, setDataHistory] = useState([]);
+  const [visibility, setVisibility] = useState(false);
 
   useEffect(() => {
     const fetchBookingHistory = async () => {
@@ -17,6 +20,7 @@ function History() {
           },
         });
         if (response.data.response === 200) {
+          console.log(response.data.data)
           setData(response.data.data);
         } else {
           console.error("Error fetching booking history:", response.data);
@@ -32,7 +36,7 @@ function History() {
   useEffect(() => {
     const newDataHistory = [];
     Data.forEach((element) => {
-      console.log(element.id);
+      //console.log(element.id);
       newDataHistory.push(element.id);
     });
     setDataHistory(newDataHistory);
@@ -55,9 +59,30 @@ function History() {
     return formattedDate;
   }
 
+  const switchVisibilityOff = () => {
+    setVisibility(false);
+  };
+  const switchVisibilityOn = () => {
+    setVisibility(true);
+  };
+
+  const handleButton = (data) => {
+    // Perform edit action, e.g., show modal with details pre-filled
+    setReservationToRate(data)
+    switchVisibilityOn()
+    
+    
+  };
+
   return (
     <>
       <Nav />
+      {visibility && (
+        <Modal onClose={switchVisibilityOff}>
+          <Rating data={ReservationToRate}/>
+        </Modal>
+      )}
+
       <div className="p-4 flex justify-center items-center overflow-x-auto h-screen">
 
         <table className="w-1/2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -71,6 +96,9 @@ function History() {
               </th>
               <th scope="col" className="px-6 py-3">
                 Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
               </th>
             </tr>
           </thead>
@@ -95,6 +123,9 @@ function History() {
                 <td className="px-6 py-4">{product.product.price}</td>
                 <td className="px-6 py-4">
                   {formatDate(product.reservationDate)}
+                </td>
+                <td className="px-6 py-4">
+                  <button className="text-blue-500 font-bold" onClick={()=>handleButton(product)}>Add Rating </button>
                 </td>
               </tr>
             ))}

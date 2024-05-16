@@ -7,6 +7,7 @@ import org.example.myspringapp.Model.User;
 
 import org.example.myspringapp.Model.UserRole;
 import org.example.myspringapp.Repositories.ProductRepository;
+import org.example.myspringapp.Repositories.ReservationRepository;
 import org.example.myspringapp.Repositories.UserRepository;
 import org.example.myspringapp.Repositories.UserRoleRepository;
 import org.example.myspringapp.Service.JWTUtils;
@@ -25,6 +26,8 @@ import java.util.Map;
 public class MySpringAppApplication implements CommandLineRunner {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -98,6 +101,8 @@ public class MySpringAppApplication implements CommandLineRunner {
                 .build();
         System.out.println(NewUser);
         //userService.Registration(NewUser);
+        System.out.println(productRepository.countBookingsForProduct(productRepository.findById(1).getId()));
+
 
 
     }

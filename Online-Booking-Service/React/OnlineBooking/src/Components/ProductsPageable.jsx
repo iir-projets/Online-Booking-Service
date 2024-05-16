@@ -118,7 +118,7 @@ function ProductsPageable() {
       setServices(ApiResponse.data.response);
       setIsLast(ApiResponse.data.isLast);
       setIsFirst(ApiResponse.data.isFirst);
-      console.log("Data from API:", ApiResponse);
+      //console.log("Data from API:", ApiResponse);
       Handle_Pagination_Navigation();
       return ApiResponse;
     } catch (error) {
@@ -155,7 +155,7 @@ function ProductsPageable() {
       setServices(ApiResponse.data);
       setIsLast(ApiResponse.data.isLast);
       setIsFirst(ApiResponse.data.isFirst);
-      console.log("Data from API:", ApiResponse);
+      //console.log("Data from API:", ApiResponse);
       Handle_Pagination_Navigation();
 
       console.log("Data from API:", ApiResponse);
@@ -204,6 +204,7 @@ function ProductsPageable() {
       return null;
     }
   };
+  
 
   return (
     <>
@@ -214,6 +215,7 @@ function ProductsPageable() {
           <Modal onClose={() => switchVisibility(false)}>
             <ProductDetails
               service={details}
+              image={services.image}
               onCancel={() => switchVisibility(false)}
             />
           </Modal>
@@ -276,6 +278,7 @@ function ProductsPageable() {
           {services.map((services) => (
             <Container
               key={services.id}
+              rating ={services.rating}
               id={services.id}
               title={services.name}
               image={services.image}

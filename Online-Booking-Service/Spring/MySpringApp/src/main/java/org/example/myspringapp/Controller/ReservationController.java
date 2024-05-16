@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -28,7 +29,6 @@ public class ReservationController {
     UserService userService;
     @Autowired
     PDFService pdfService;
-
 
 
     /*@PostMapping("/reservation/PDF")
@@ -68,6 +68,7 @@ public class ReservationController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @PostMapping()
     public ResponseEntity<byte[]> generatePDF(@RequestBody PDFContentDTO requestDTO) {
         try {
@@ -85,5 +86,6 @@ public class ReservationController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
 }
+
+
