@@ -15,6 +15,7 @@ import History from './Components/History.jsx';
 
 import ProductsPageable from './Components/ProductsPageable.jsx';
 import SignIn from './Components/SignIn.jsx';
+import AdminHistory from './Components/AdminHistory.jsx';
 
 
 
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
     //default to try new features
     path:'/Admin',
     element: <Admin/>
+  },
+  {
+    //default to try new features
+    path:'/Admin/history',
+    element: <AdminHistory/>
   },
   {
     //default for production

@@ -5,7 +5,6 @@ import axios from "axios";
 import Rating from "./Rating";
 
 function History() {
-
   const [Data, setData] = useState([]);
   const [ReservationToRate, setReservationToRate] = useState();
   const [DataHistory, setDataHistory] = useState([]);
@@ -20,7 +19,7 @@ function History() {
           },
         });
         if (response.data.response === 200) {
-          console.log(response.data.data)
+          console.log(response.data.data);
           setData(response.data.data);
         } else {
           console.error("Error fetching booking history:", response.data);
@@ -41,7 +40,6 @@ function History() {
     });
     setDataHistory(newDataHistory);
   }, [Data]);
-
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -68,10 +66,8 @@ function History() {
 
   const handleButton = (data) => {
     // Perform edit action, e.g., show modal with details pre-filled
-    setReservationToRate(data)
-    switchVisibilityOn()
-    
-    
+    setReservationToRate(data);
+    switchVisibilityOn();
   };
 
   return (
@@ -79,12 +75,11 @@ function History() {
       <Nav />
       {visibility && (
         <Modal onClose={switchVisibilityOff}>
-          <Rating data={ReservationToRate}/>
+          <Rating data={ReservationToRate} />
         </Modal>
       )}
 
       <div className="p-4 flex justify-center items-center overflow-x-auto h-screen">
-
         <table className="w-1/2 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -125,7 +120,17 @@ function History() {
                   {formatDate(product.reservationDate)}
                 </td>
                 <td className="px-6 py-4">
-                  <button className="text-blue-500 font-bold" onClick={()=>handleButton(product)}>Add Rating </button>
+                  <button
+                    className={`text-blue-500 font-bold ${
+                      product.comment !== null
+                        ? "text-gray-400 cursor-not-allowed"
+                        : ""
+                    }`}
+                    onClick={() => handleButton(product)}
+                    disabled={product.comment !== null}
+                  >
+                    Add Rating
+                  </button>
                 </td>
               </tr>
             ))}
