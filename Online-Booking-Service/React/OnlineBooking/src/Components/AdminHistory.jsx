@@ -7,6 +7,9 @@ import Nav from "./Nav";
 function AdminHistory() {
   //States
   const [Data, setData] = useState([]);
+  const [Price, setPrice] = useState(0);
+  const [Reservations, setReservations] = useState(0);
+  const [Feedback, setFeedback] = useState(0);
 
   useEffect(() => {
     const fetchBookingHistory = async () => {
@@ -18,6 +21,9 @@ function AdminHistory() {
         if (response.data.response === 200) {
           console.log(response.data.data);
           setData(response.data.data);
+          setPrice(response.data.TotalPrice);
+          setFeedback(response.data.feedback)
+          setReservations(response.data.reservations)
         } else {
           console.error("Error fetching booking history:", response.data);
         }
@@ -51,9 +57,14 @@ function AdminHistory() {
       <Nav />
       <div className="h-svh mt-10">
         {" "}
-        <div className=" flex justify-end mr-6 ">
+        <div className=" flex justify-between mr-6 ">
+            <div className="flex flex-col gap-4 justify-center font-mono text-2xl ml-8 p-2">
+                <h1 className="">Totale CA made until now is : {Price}</h1>
+                <h1 className="">Totale Reservatins made are : {Reservations}</h1>
+                <h1 className="">Totale feedback we got is : {Feedback}</h1>
+            </div>
           <button
-            className="p-4 hover:bg-blue-500 duration-1000 hover:text-slate-900 hover:text-2xl font-mono font-bold ring-2 rounded-2xl "
+            className="p-4 h-20 hover:bg-blue-500 duration-1000 hover:text-slate-900 hover:text-2xl font-mono font-bold ring-2 rounded-2xl "
             onClick={() => {
               navigateTo("/Admin");
             }}
