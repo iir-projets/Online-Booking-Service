@@ -173,7 +173,13 @@ public class UserService {
 
     public Map<String,Object> gethistory(){
         Map<String ,Object> response = new HashMap<>();
-        response.put("data",reservationRepository.findAll());
+        Long Prince = 0L;
+        List<Reservation> reservationList = reservationRepository.findAll();
+        for(Reservation reservation : reservationList){
+            Prince += reservation.getProduct().getPrice();
+        }
+        response.put("TotalPrice",Prince);
+        response.put("data",reservationList);
         response.put("response",200);
         return response;
     }
