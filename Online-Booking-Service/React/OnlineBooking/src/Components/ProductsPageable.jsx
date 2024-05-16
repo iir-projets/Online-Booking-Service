@@ -215,6 +215,7 @@ function ProductsPageable() {
           <Modal onClose={() => switchVisibility(false)}>
             <ProductDetails
               service={details}
+              image={services.image}
               onCancel={() => switchVisibility(false)}
             />
           </Modal>

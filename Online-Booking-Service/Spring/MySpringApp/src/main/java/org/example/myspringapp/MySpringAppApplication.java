@@ -102,7 +102,7 @@ public class MySpringAppApplication implements CommandLineRunner {
         System.out.println(NewUser);
         //userService.Registration(NewUser);
         System.out.println(productRepository.countBookingsForProduct(productRepository.findById(1).getId()));
-        
+
 
 
     }

@@ -30,6 +30,7 @@ public class Product {
 
 
     @Lob
+    @Basic(fetch = FetchType.LAZY) // Make the image attribute lazy-loaded
     @Column(length = 1_000_000) // Adjust the length as per your requirement
     private byte[] image;
 
