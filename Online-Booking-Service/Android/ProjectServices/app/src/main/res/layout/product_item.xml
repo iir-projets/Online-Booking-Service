@@ -82,6 +82,7 @@
                 app:layout_constraintStart_toStartOf="@id/labelPrice"
                 app:layout_constraintTop_toBottomOf="@id/labelPrice" />
 
+            <!-- Bouton "Reserve" -->
             <Button
                 android:id="@+id/btnReserve"
                 android:layout_width="wrap_content"
@@ -89,9 +90,22 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_bg"
                 android:text="Reserve"
-                app:layout_constraintEnd_toEndOf="@id/productPrice"
+                app:layout_constraintEnd_toStartOf="@id/btnComment"
                 app:layout_constraintHorizontal_bias="0.33"
-                app:layout_constraintStart_toStartOf="@id/productPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productPrice" />
+
+            <!-- Bouton "Commentaire" -->
+            <Button
+                android:id="@+id/btnComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_bg"
+                android:text="Commentaire"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.67"
+                app:layout_constraintStart_toEndOf="@id/btnReserve"
                 app:layout_constraintTop_toBottomOf="@id/productPrice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

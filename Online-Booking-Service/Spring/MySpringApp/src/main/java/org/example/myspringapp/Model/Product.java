@@ -23,6 +23,7 @@ public class Product {
     private String category ;
     private String availability;
     private String Location;
+    private int Rating ;
     private int price ;
 
 
